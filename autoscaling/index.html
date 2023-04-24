@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt_BR" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Xoan C. Pardo" /><link rel="canonical" href="https://gei-eii.github.io/autoscaling/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Paso 6: Configuración da elasticidade na capa de aplicación - EII P3 AWS</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Paso 6: Configuraci\u00f3n da elasticidade na capa de aplicaci\u00f3n";
+        var mkdocs_page_input_path = "autoscaling.md";
+        var mkdocs_page_url = "/autoscaling/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> EII P3 AWS
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Despregamento en AWS dunha arquitectura HA elástica de 2 capas</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../vpc/">Paso 1: Configuración da rede</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../seguridade/">Paso 2: Configuración da seguridade</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rds/">Paso 3: Configuración da capa de datos</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ami/">Paso 4: Configuración da aplicación</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../app/">Paso 5: Configuración da capa de aplicación</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 6: Configuración da elasticidade na capa de aplicación</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#crea-unha-alarma-para-o-numero-alto-de-conexions">Crea unha alarma para o número alto de conexións</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#crea-unha-alarma-para-o-numero-baixo-de-conexions">Crea unha alarma para o número baixo de conexións</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#crea-a-politica-para-engadir-instancias">Crea a política para engadir instancias</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#crea-a-politica-para-eliminar-instancias">Crea a política para eliminar instancias</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#proba-a-elasticidade-da-capa-de-aplicacion">Proba a elasticidade da capa de aplicación</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ha/">Paso 7: Proba da dispoñibilidade</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../clear/">Paso 8: Eliminación de recursos</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">EII P3 AWS</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Paso 6: Configuración da elasticidade na capa de aplicación</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="paso-6-configuracion-da-elasticidade-na-capa-de-aplicacion">Paso 6: Configuración da elasticidade na capa de aplicación</h1>
+<p>Neste paso vamos configurar a elasticidade no grupo de autoescalamento da capa de aplicación e comprobar o seu funcionamento. En concreto vamos configurar:</p>
+<ul>
+<li>Alarmas para detectar cando o número de solicitudes recibidas polas instancias da aplicación desde o balanceador de carga é alto ou baixo.</li>
+<li>Políticas de escalamento para aumentar e diminuir o número de instancias na capa de aplicación en función das alarmas anteriores.</li>
+</ul>
+<h2 id="crea-unha-alarma-para-o-numero-alto-de-conexions">Crea unha alarma para o número alto de conexións</h2>
+<p>Para crear a alarma, fai o seguinte:</p>
+<ol>
+<li>No menú da consola de <em>CloudWatch</em> escolle a opción <strong>Todas as alarmas</strong></li>
+<li>
+<p>Escolle a opción <strong>Crear alarma</strong> e no asistente indica as opcións seguintes:</p>
+<ul>
+<li>Métrica: escolle a métrica <strong>RequestCountPerTarget</strong> na categoría <strong>ApplicationELB-&gt;TargetGroup</strong></li>
+<li>Estatística: <strong>Suma</strong></li>
+<li>Periodo: <strong>1 minuto</strong></li>
+<li>Condición: <strong>&gt;100</strong>. Na configuración adicional, escolle a opción <strong>Considerar datos ausentes como ignorar</strong>.  </li>
+</ul>
+<p><img alt="Alarma: métrica e condicións" src="../img/test-scaling01.png" />
+<em>Imaxe: configuración da métrica e condicións da alarma.</em></p>
+<ul>
+<li>Notificación: escolle o tópico SNS que creaches no titorial desta práctica.</li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-alarma-alta</strong></li>
+<li>Descrición: escribe unha descrición para a alarma.</li>
+</ul>
+</li>
+<li>
+<p>Acepta para crear a alarma deixando as demais opcións aos seus valores por defecto.</p>
+</li>
+</ol>
+<h2 id="crea-unha-alarma-para-o-numero-baixo-de-conexions">Crea unha alarma para o número baixo de conexións</h2>
+<p>Para crear a alarma, fai o seguinte:</p>
+<ol>
+<li>Coa alarma creada no apartado anterior seleccionada, escolle  no menú de accións da alarma a opción <strong>Copiar</strong>. </li>
+<li>
+<p>No asistente edita os datos seguintes:</p>
+<ul>
+<li>Condición: <strong>&lt;10</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-alarma-baixa</strong></li>
+<li>Descrición: escribe unha descrición para a alarma.</li>
+</ul>
+</li>
+<li>
+<p>Acepta para crear a alarma deixando as demais opcións sen modificar.</p>
+</li>
+</ol>
+<p><img alt="Alarmas: propiedades" src="../img/test-scaling02.png" />
+<em>Imaxe: propiedades das alarmas.</em></p>
+<h2 id="crea-a-politica-para-engadir-instancias">Crea a política para engadir instancias</h2>
+<p>Para crear a política de escalamento que engadirá instancias cando o número de conexións recibidas desde o balanceador supere o límite, fai o seguinte:</p>
+<ol>
+<li>Vai para a consola de EC2 e escolle o grupo de autoescalamento da capa de aplicación.</li>
+<li>
+<p>Na lapela <strong>Escalabilidade automática</strong> das propiedades do grupo, escolle a opción <strong>Crear unha política de escalabilidade dinámica</strong> e indica as seguintes opcións:</p>
+<ul>
+<li>Tipo de política: <strong>Escalabilidade simple</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-scaleout</strong></li>
+<li>Alarma de <em>Cloudwatch</em>: escolle a alarma para o <strong>número alto de conexións</strong> que creaches anteriormente.</li>
+<li>Acción: <strong>Engadir 1 unidade de capacidade</strong></li>
+</ul>
+</li>
+<li>
+<p>Acepta para crear a política deixando as demais opcións aos seus valores por defecto.</p>
+</li>
+</ol>
+<h2 id="crea-a-politica-para-eliminar-instancias">Crea a política para eliminar instancias</h2>
+<p>Repite os pasos do apartado anterior indicando agora as seguintes opcións:</p>
+<ul>
+<li>Tipo de política: <strong>Escalabilidade simple</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-scalein</strong></li>
+<li>Alarma de <em>Cloudwatch</em>: escolle a alarma para o <strong>número baixo de conexións</strong> que creaches anteriormente.</li>
+<li>Acción: <strong>Eliminar 1 unidade de capacidade</strong></li>
+</ul>
+<p><img alt="Políticas de escalabilidade" src="../img/test-scaling03.png" />
+<em>Imaxe: propiedades das políticas de escalabilidade.</em></p>
+<h2 id="proba-a-elasticidade-da-capa-de-aplicacion">Proba a elasticidade da capa de aplicación</h2>
+<p>Vamos agora executar unha proba de carga na aplicación para provocar que se activen as políticas do grupo de escalamento. Para elo, vamos aproveitar que o comando <code>ab</code> xa está dispoñíbel no terminal que nos proporciona o laboratorio de AWS Academy. Usando <strong>o DNS do teu balanceador de carga</strong>, fai as execucións que sexan necesarias para provocar a activación das políticas de escalabilidade que definimos anteriormente. </p>
+<p>Nas seguintes capturas podes ver un exemplo do comportamento agardado:</p>
+<p><img alt="Proba de carga: comando ab" src="../img/test-scaling04.png" />
+<em>Imaxe: exemplo da execución dunha proba de carga no terminal do laboratorio.</em></p>
+<p><img alt="Escalamento: alarma alta" src="../img/test-scaling06.png" />
+<em>Imaxe: estado da alarma que detecta un número elevado de conexións e histórico que amosa que se aplicou a política de escalabilidade para aumentar o número de instancias.</em></p>
+<p><img alt="Escalamento: grupo de destino con dúas instancias" src="../img/test-scaling05.png" />
+<em>Imaxe: estado do grupo de destino do balanceador con dúas instancias en AZ diferentes despois de aplicar a política de escalabilidade.</em></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Se recargas varias veces a páxina da aplicación coa listaxe de tarefas pendentes mentres haxa dúas instancias en execución, verás que cambia a información do DNS privado que sirve a páxina dependendo de a que instancia redirixa a solicitude o balanceador. </p>
+</div>
+<p><img alt="Escalamento: aplicación" src="../img/test-scaling10.png" />
+<em>Imaxe: DNS privado da instancia que serve a páxina da aplicación.</em></p>
+<p>Unha vez a proba de carga remate, e pase un certo tempo sen realizar máis conexións, actívase de novo o grupo de escalamento para reducir o número de instancias, como amosan as seguintes capturas:</p>
+<p><img alt="Escalamento: alarma baixa" src="../img/test-scaling07.png" />
+<em>Imaxe: estado da alarma que detecta un número reducido de conexións e histórico que amosa que se aplicou a política de escalabilidade para reducir o número de instancias.</em></p>
+<p><img alt="Escalamento: grupo de destino cunha soa instancia" src="../img/test-scaling08.png" />
+<em>Imaxe: estado do grupo de destino do balanceador coa instancia que se está a eliminar como consecuencia de aplicar a política de escalabilidade.</em></p>
+<p><img alt="Escalamento: histórico do grupo" src="../img/test-scaling09.png" />
+<em>Imaxe: historico do grupo de escalamento no que se amosa a aplicación das políticas de escalabilidade. Tamén aparece a substitución dunha instancia debido a un fallo na comprobación de estado realizada desde o balanceador.</em></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../app/" class="btn btn-neutral float-left" title="Paso 5: Configuración da capa de aplicación"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ha/" class="btn btn-neutral float-right" title="Paso 7: Proba da dispoñibilidade">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../app/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ha/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

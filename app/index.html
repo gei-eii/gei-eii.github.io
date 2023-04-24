@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt_BR" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Xoan C. Pardo" /><link rel="canonical" href="https://gei-eii.github.io/app/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Paso 5: Configuración da capa de aplicación - EII P3 AWS</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Paso 5: Configuraci\u00f3n da capa de aplicaci\u00f3n";
+        var mkdocs_page_input_path = "app.md";
+        var mkdocs_page_url = "/app/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> EII P3 AWS
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Despregamento en AWS dunha arquitectura HA elástica de 2 capas</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../vpc/">Paso 1: Configuración da rede</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../seguridade/">Paso 2: Configuración da seguridade</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rds/">Paso 3: Configuración da capa de datos</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ami/">Paso 4: Configuración da aplicación</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 5: Configuración da capa de aplicación</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#crea-o-grupo-de-destino">Crea o grupo de destino</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#crea-o-balanceador-de-carga">Crea o balanceador de carga</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#crea-o-modelo-de-lanzamento">Crea o modelo de lanzamento</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#crea-o-grupo-de-autoescalamento">Crea o grupo de autoescalamento</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#comproba-a-aplicacion">Comproba a aplicación</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../autoscaling/">Paso 6: Configuración da elasticidade na capa de aplicación</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ha/">Paso 7: Proba da dispoñibilidade</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../clear/">Paso 8: Eliminación de recursos</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">EII P3 AWS</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Paso 5: Configuración da capa de aplicación</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="paso-5-configuracion-da-capa-de-aplicacion">Paso 5: Configuración da capa de aplicación</h1>
+<p>Vamos agora configurar a alta dispoñibilidade e a escalabilidade na capa de aplicación. En concreto vamos configurar:</p>
+<ul>
+<li>Un grupo de destino</li>
+<li>Un balanceador de carga</li>
+<li>Un modelo de lanzamento</li>
+<li>Un grupo de autoescalamento </li>
+</ul>
+<p><img alt="Compoñentes da capa de aplicación" src="../img/app-componentes01.png" />
+<em>Imaxe: compoñentes da capa de aplicación.</em></p>
+<h2 id="crea-o-grupo-de-destino">Crea o grupo de destino</h2>
+<p>Vamos comezar por crear un grupo de destino para usar co balanceador de carga na nosa capa de aplicación. Fai o seguinte:</p>
+<ol>
+<li>No menú da consola de EC2 escolle a opción <strong>Grupos de destino</strong>.</li>
+<li>
+<p>Crea un grupo premendo no botón <strong>Crear grupo de destino</strong> e indica as opcións seguintes no asistente:</p>
+<ul>
+<li>Tipo de destino: <strong>Instancias</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-targetgroup</strong></li>
+<li>Protocolo e porta: <strong>HTTP:80</strong></li>
+<li>VPC: escolle a VPC que creaches para a arquitectura.</li>
+</ul>
+</li>
+<li>
+<p>Acepta para crear o grupo sen rexistrar ningunha instancia.</p>
+</li>
+</ol>
+<p><img alt="Grupo de destino" src="../img/app-grupodestino01.png" />
+<em>Imaxe: propiedades do grupo de destino.</em></p>
+<h2 id="crea-o-balanceador-de-carga">Crea o balanceador de carga</h2>
+<p>Para crear o balanceador fai o seguinte:</p>
+<ol>
+<li>No menú da consola de EC2 escolle a opción <strong>Balanceadores de Carga</strong>.</li>
+<li>Crea un balanceador de carga premendo no botón <strong>Crear balanceador de carga</strong>.</li>
+<li>Preme no botón <strong>Crear</strong> do tipo <strong>Balanceador de carga de aplicacións</strong>.</li>
+<li>
+<p>No asistente para crear un balanceador de carga de aplicacións indica as opcións seguintes:</p>
+<ul>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-alb</strong></li>
+<li>Esquema: exposto a Internet. Consulta a <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#load-balancer-scheme">documentación de AWS</a> para ver cal é a diferenza cun balanceador interno.</li>
+</ul>
+<p><img alt="Balanceador de carga de aplicacións: configuración básica" src="../img/app-alb01.png" />
+<em>Imaxe: configuración básica do balanceador.</em></p>
+<ul>
+<li>VPC: escolle a VPC que creaches para a arquitectura.</li>
+<li>Mapeamento: en cada unha das dúas AZ da nosa VPC, escolle <strong>a subrede pública</strong>. Os balanceadores expostos a Internet teñen que estar asociados con subredes que teñan o tráfico encamiñado a un <em>gateway</em> de Internet.</li>
+</ul>
+<p><img alt="Balanceador de carga de aplicacións: VPC" src="../img/app-alb02.png" />
+<em>Imaxe: configuración de rede do balanceador.</em></p>
+<ul>
+<li>Grupo de seguridade: escolle o grupo de seguridade do balanceador de carga que creaches no paso de configuración da seguridade. </li>
+<li>Roteamento: escolle no <em>listener</em> HTTP:80 o grupo de destino que creaches anteriormente.</li>
+</ul>
+<p><img alt="Balanceador de carga de aplicacións: seguridade e rotemento" src="../img/app-alb03.png" />
+<em>Imaxe: configuración de seguridade e listeners do balanceador.</em></p>
+</li>
+<li>
+<p>Acepta para crear o balanceador.</p>
+<p><img alt="Balanceador de carga de aplicacións" src="../img/app-alb04.png" />
+<em>Imaxe: propiedades do balanceador.</em></p>
+</li>
+</ol>
+<h2 id="crea-o-modelo-de-lanzamento">Crea o modelo de lanzamento</h2>
+<p>Unha vez configurado o balanceador de carga, vamos agora configurar o escalamento da nosa capa de aplicación. Comezaremos por crear un <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html">modelo de lanzamento</a> que use a AMI que creamos previamente para a nosa aplicación. Fai o seguinte:</p>
+<ol>
+<li>No menú da consola de EC2, dentro do submenú <strong>Instancias</strong>, escolle a opción <strong>Modelos de lanzamento</strong>.</li>
+<li>
+<p>Crea un novo modelo premendo no botón <strong>Crear modelo de lanzamento</strong> indicando as opcións seguintes:</p>
+<ul>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-launchcfg</strong></li>
+<li>Descrición: escribe unha descrición para o teu modelo.</li>
+<li>Orientación sobre o <em>Autoscaling</em>: activa a opción para que o asistente nos avise se algo non está ben configurado para poder usar o modelo co autoescalamento de EC2.</li>
+<li>AMI: escolle a AMI da aplicación que creaches no paso de configuración da aplicación.</li>
+<li>Tipo de instancia: <strong>t2.micro</strong></li>
+<li>Par de chaves: escolle <strong>NON</strong> engadilas ao modelo.</li>
+<li>Subrede: escolle <strong>NON</strong> engadila no modelo.</li>
+<li>Grupo de seguridade: escolle o grupo de seguridade da capa de aplicación.</li>
+<li>Detalles avanzados: escolle o perfil de instancia IAM <strong>LabInstanceProfile</strong>, que xa está predefinido no laboratorio de AWS Academy.</li>
+</ul>
+<p><img alt="Modelo de lanzamento: configuración" src="../img/app-launchcfg01.png" />
+<em>Imaxe: parte da configuración do modelo de lanzamento.</em></p>
+</li>
+<li>
+<p>Acepta para crear o modelo de lanzamento.</p>
+<p><img alt="Modelo de lanzamento: propiedades" src="../img/app-launchcfg02.png" />
+<em>Imaxe: propiedades do modelo de lanzamento.</em></p>
+</li>
+</ol>
+<h2 id="crea-o-grupo-de-autoescalamento">Crea o grupo de autoescalamento</h2>
+<p>Para finalizar este paso, vamos agora crear o grupo de escalamento a partir do modelo de lanzamento. Fai o seguinte:</p>
+<ol>
+<li>Selecciona o modelo de lanzamento que ves de crear e no menú de accións do modelo escolle a opción <strong>Crear grupo de autoescalamento</strong>. </li>
+<li>
+<p>No asistente para crear o grupo indica as seguintes opcións:</p>
+<ul>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-scaling</strong></li>
+<li>Modelo de lanzamento: comproba que xa aparece configurado o modelo que creaches previamente.</li>
+<li>Rede: escolle a VPC que creaches para a arquitectura e as subredes privadas que se crearon para a capa de aplicación.</li>
+</ul>
+<p><img alt="Grupo de autoescalamento: rede" src="../img/app-scaling01.png" />
+<em>Imaxe: configuración da rede no grupo de escalamento.</em></p>
+<ul>
+<li>Balanceador de carga: escolle a opción de xuntar a un balanceador de carga existente e escolle o grupo de destino do balanceador que creaches anteriormente.</li>
+</ul>
+<p><img alt="Grupo de autoescalamento: balanceamento de carga" src="../img/app-scaling02.png" />
+<em>Imaxe: configuración do balanceamento da carga no grupo de escalamento.</em></p>
+<ul>
+<li>Comprobación de estado: activa a opción para monitorar as instancias desde o balanceador.</li>
+</ul>
+<p><img alt="Grupo de autoescalamento: comprobación de estado" src="../img/app-scaling03.png" />
+<em>Imaxe: configuración da comprobación de estado no grupo de escalamento.</em></p>
+<ul>
+<li>Tamaño do grupo: configura a capacidade desexada e a mínima a 1, e a máxima a 2. </li>
+<li>Políticas de escalabilidade: non vamos definir ningunha polo dagora.</li>
+</ul>
+<p><img alt="Grupo de autoescalamento: tamaño e políticas" src="../img/app-scaling04.png" />
+<em>Imaxe: configuración do tamaño e as políticas no grupo de escalamento.</em></p>
+</li>
+<li>
+<p>Acepta para crear o grupo deixando o resto das opcións ao seu valor por defecto. Ao crearse o grupo, este vai iniciar tamén o número de instancias que indicamos na capacidade desexada (neste caso 1).</p>
+</li>
+</ol>
+<p><img alt="Grupo de autoescalamento: propiedades" src="../img/app-scaling05.png" />
+<em>Imaxe: propiedades do grupo de escalamento.</em>    </p>
+<ol start="4">
+<li>Comproba que a instancia apareza tamén como destino rexistrado no grupo de destino do balanceador de carga.</li>
+</ol>
+<p><img alt="Grupo de destino: destino rexistrado" src="../img/app-scaling06.png" />
+<em>Imaxe: instancia rexistrada no grupo de destino.</em> </p>
+<h2 id="comproba-a-aplicacion">Comproba a aplicación</h2>
+<p>Para realizar a comprobación inicial de que a arquitectura está correctamente configurada, fai o seguinte:</p>
+<ol>
+<li>Abre nun navegador a páxina da aplicación usando o nome DNS do balanceador de carga. Se todo está correcto, abrirase a páxina da aplicación amosando que a listaxe de tarefas pendentes está baleira.</li>
+</ol>
+<p><img alt="Páxina da aplicación: sen tarefas pendentes" src="../img/app-paxina03.png" />
+<em>Imaxe: páxina da aplicación sen tarefas pendentes.</em></p>
+<ol start="2">
+<li>Engade algunhas tarefas. Lembra poñer o teu prefixo e o curso actual diante dos nomes das tarefas. </li>
+</ol>
+<p><img alt="Páxina da aplicación: listaxe inicial de tarefas pendentes" src="../img/app-paxina04.png" />
+<em>Imaxe: páxina da aplicación coa listaxe de tarefas pendentes.</em></p>
+<div class="admonition important">
+<p class="admonition-title">Importante</p>
+<p>Para evitar que o grupo de autoescalamento poda manter instancias en execución cando saias da sesión do laboratorio de AWS Academy, lembra modificar o tamaño do grupo poñendo a cero a capacidade desexada, o mínimo e o máximo antes de pechar a sesión. Cando volvas iniciar sesión no laboratorio terás que volver configurar os valores orixinais.</p>
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../ami/" class="btn btn-neutral float-left" title="Paso 4: Configuración da aplicación"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../autoscaling/" class="btn btn-neutral float-right" title="Paso 6: Configuración da elasticidade na capa de aplicación">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../ami/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../autoscaling/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

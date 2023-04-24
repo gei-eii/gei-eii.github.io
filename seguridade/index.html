@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt_BR" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Xoan C. Pardo" /><link rel="canonical" href="https://gei-eii.github.io/seguridade/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Paso 2: Configuración da seguridade - EII P3 AWS</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Paso 2: Configuraci\u00f3n da seguridade";
+        var mkdocs_page_input_path = "seguridade.md";
+        var mkdocs_page_url = "/seguridade/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> EII P3 AWS
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Despregamento en AWS dunha arquitectura HA elástica de 2 capas</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../vpc/">Paso 1: Configuración da rede</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 2: Configuración da seguridade</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#grupo-de-seguridade-do-balanceador-de-carga">Grupo de seguridade do balanceador de carga</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#grupo-de-seguridade-da-capa-de-aplicacion">Grupo de seguridade da capa de aplicación</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#grupo-de-seguridade-da-capa-de-datos">Grupo de seguridade da capa de datos</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rds/">Paso 3: Configuración da capa de datos</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ami/">Paso 4: Configuración da aplicación</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../app/">Paso 5: Configuración da capa de aplicación</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../autoscaling/">Paso 6: Configuración da elasticidade na capa de aplicación</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ha/">Paso 7: Proba da dispoñibilidade</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../clear/">Paso 8: Eliminación de recursos</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">EII P3 AWS</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Paso 2: Configuración da seguridade</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="paso-2-configuracion-da-seguridade">Paso 2: Configuración da seguridade</h1>
+<p>Vamos configurar agora os grupos de seguridade que van permitir/denegar o tráfico de rede entre as diferentes capas da nosa arquitectura. En concreto, vamos crear tres grupos:</p>
+<ul>
+<li>Para o balanceador de carga.</li>
+<li>Para as instancias da capa de aplicación.</li>
+<li>Para as instancias da capa de datos.</li>
+</ul>
+<h2 id="grupo-de-seguridade-do-balanceador-de-carga">Grupo de seguridade do balanceador de carga</h2>
+<p>Para crear o grupo de seguridade para o balanceador de carga fai o seguinte:</p>
+<ol>
+<li>Desde a consola de AWS, accede ao servizo VPC.</li>
+<li>No menú do servizo VPC, escolle a opción: <strong>Grupos de seguridade</strong>.</li>
+<li>
+<p>Escolle a opción para crear un novo grupo de seguridade e indica as opcións seguintes:</p>
+<ul>
+<li>Nome: dalle un nome ao grupo. Lembra poñer as tuas iniciais seguidas do curso académico, p.e. <strong>xcpm2223-elb-sg</strong>.</li>
+<li>Descripción: pon unha descrición para o grupo.</li>
+<li>VPC: escolle a VPC que creaches para a arquitectura.</li>
+<li>Regras de entrada: crea regras para permitir o tráfico HTTP e HTTPS <strong>desde calquera IPv4</strong>.</li>
+</ul>
+</li>
+</ol>
+<p><img alt="Grupo de seguridade do ELB" src="../img/sg-elb01.png" />
+<em>Imaxe: grupo de seguridade do ELB.</em></p>
+<h2 id="grupo-de-seguridade-da-capa-de-aplicacion">Grupo de seguridade da capa de aplicación</h2>
+<p>Para as instancias da capa de aplicación, crea outro grupo de seguridade coa configuración seguinte:</p>
+<ul>
+<li>Nome: dalle un nome ao grupo. Lembra poñer as tuas iniciais seguidas do curso académico, p.e. <strong>xcpm2223-app-sg</strong>.</li>
+<li>Descripción: pon unha descrición para o grupo.</li>
+<li>VPC: escolle a VPC que creaches para a arquitectura.</li>
+<li>Regras de entrada: crea regras para permitir o tráfico HTTP e HTTPS <strong>desde o grupo de seguridade do balanceador de carga</strong>.</li>
+</ul>
+<p><img alt="Grupo de seguridade da capa de aplicación" src="../img/sg-app01.png" />
+<em>Imaxe: grupo de seguridade da capa de aplicación.</em></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Aínda que se engadiran regras para o tráfico HTTPS nos grupos de seguridade anteriores, a configuración de HTTPS queda fora do alcance desta práctica, na que só vamos usar as regras HTTP.</p>
+</div>
+<h2 id="grupo-de-seguridade-da-capa-de-datos">Grupo de seguridade da capa de datos</h2>
+<p>Para as instancias da capa de datos, crea outro grupo de seguridade coa configuración seguinte:</p>
+<ul>
+<li>Nome: dalle un nome ao grupo. Lembra poñer as tuas iniciais seguidas do curso académico, p.e. <strong>xcpm2223-bd-sg</strong>.</li>
+<li>Descripción: pon unha descrición para o grupo.</li>
+<li>VPC: escolle a VPC que creaches para a arquitectura.</li>
+<li>Regras de entrada: crea unha regra que permita o tráfico de tipo MYSQL/Aurora (porta 3306) <strong>desde o grupo de seguridade da capa de aplicación</strong>.</li>
+</ul>
+<p><img alt="Grupo de seguridade da capa de datos" src="../img/sg-bd01.png" />
+<em>Imaxe: grupo de seguridade da capa de datos.</em></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../vpc/" class="btn btn-neutral float-left" title="Paso 1: Configuración da rede"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../rds/" class="btn btn-neutral float-right" title="Paso 3: Configuración da capa de datos">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../vpc/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../rds/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt_BR" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Xoan C. Pardo" /><link rel="canonical" href="https://gei-eii.github.io/vpc/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Paso 1: Configuración da rede - EII P3 AWS</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Paso 1: Configuraci\u00f3n da rede";
+        var mkdocs_page_input_path = "vpc.md";
+        var mkdocs_page_url = "/vpc/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> EII P3 AWS
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Despregamento en AWS dunha arquitectura HA elástica de 2 capas</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 1: Configuración da rede</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#crea-a-vpc">Crea a VPC</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#revisa-a-vpc-creada">Revisa a VPC creada</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#subredes">Subredes</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#gateways">Gateways</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#taboas-de-roteamento">Táboas de roteamento</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../seguridade/">Paso 2: Configuración da seguridade</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rds/">Paso 3: Configuración da capa de datos</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ami/">Paso 4: Configuración da aplicación</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../app/">Paso 5: Configuración da capa de aplicación</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../autoscaling/">Paso 6: Configuración da elasticidade na capa de aplicación</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ha/">Paso 7: Proba da dispoñibilidade</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../clear/">Paso 8: Eliminación de recursos</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">EII P3 AWS</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Paso 1: Configuración da rede</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="paso-1-configuracion-da-rede">Paso 1: Configuración da rede</h1>
+<p>Vamos comezar por configurar as compoñentes da rede VPC que van proporcionar a capa básica de aillamento, seguridade e alta dispoñibilidade ás demais compoñentes da arquitectura que vamos despregar. Vaise crear o seguinte:</p>
+<ul>
+<li>Unha rede VPC na que despregaremos as demais compoñentes da arquitectura.</li>
+<li>Subredes públicas e privadas para as capas da arquitectura.</li>
+<li>Un <em>gateway</em> para a conexión á Internet da VPC.</li>
+<li><em>Gateways</em> NAT para o acceso a Internet desde as subredes privadas.</li>
+<li>Táboas de roteamento para configurar o tráfico de rede entre as subredes e os <em>gateways</em>.</li>
+</ul>
+<p><img alt="Compoñentes da VPC" src="../img/vpc-componentes01.png" />
+<em>Imaxe: compoñentes da VPC.</em></p>
+<h2 id="crea-a-vpc">Crea a VPC</h2>
+<ol>
+<li>Desde a consola de AWS, accede ao servizo VPC.</li>
+<li>No panel do servizo VPC, escolle a opción para crear unha nova VPC.</li>
+<li>
+<p>No asistente para crear a VPC, indica as opcións seguintes:</p>
+<ul>
+<li>Recursos a crear: <strong>VPC e moito máis</strong></li>
+<li>Etiqueta do nome: deixa activa a opción para xerala automaticamente e pon as tuas iniciais seguidas do curso académico, p.e. <strong>xcpm2223</strong></li>
+<li>Bloque CIDR IPv4: no segundo campo da IP pon as 2 últimas cifras do teu DNI, p.e. 10.<strong>40</strong>.0.0/16</li>
+<li>Número de AZ: <strong>2</strong></li>
+<li>Número de sub-redes públicas: <strong>2</strong></li>
+<li>Número de sub-redes privadas: <strong>4</strong></li>
+<li>Gateways NAT: <strong>1 por AZ</strong></li>
+<li>Endpoints da VPC: <strong>Ningún</strong></li>
+<li>Opcións de DNS: desactiva a opción <strong>Habilitar nomes de host DNS</strong></li>
+</ul>
+</li>
+</ol>
+<p><img alt="Configuración da VPC" src="../img/vpc-config01.png" />
+<em>Imaxe: configuración da VPC.</em></p>
+<h2 id="revisa-a-vpc-creada">Revisa a VPC creada</h2>
+<p>Vamos agora revisar a configuración das diferentes compoñentes que se crearon na VPC e modificar o que sexa preciso.</p>
+<h3 id="subredes">Subredes</h3>
+<p>Comproba o seguinte:</p>
+<ul>
+<li>Que hai seis subredes na VPC distribuídas en dúas zonas de disponibilidade, unha pública e 2 privadas en cada AZ.</li>
+<li>Que os bloques CIDR das subredes son subconxuntos do bloque CIDR da VPC e as IP que hai dispoñíbeis en cada subrede e no total.</li>
+</ul>
+<p>O que fai que unha subrede sexa pública ou privada é a táboa de roteamento á que estea asociada. Unha subrede pública terá asociada unha táboa que encamiñe o tráfico da subrede a un <em>gateway</em> de Internet. Unha subrede privada terá asociada unha táboa que o encamiñe a un <em>gateway</em> NAT.</p>
+<p><img alt="Subrede pública" src="../img/vpc-subrede01.png" />
+<em>Imaxe: subrede pública con saída a Internet a tráves do gateway de Internet.</em></p>
+<p><img alt="Subrede privada" src="../img/vpc-subrede02.png" />
+<em>Imaxe: subrede privada con saída a Internet a través dun gateway NAT.</em></p>
+<h3 id="gateways"><em>Gateways</em></h3>
+<p>Comproba que se crearon os seguintes <em>gateways</em> na VPC:</p>
+<ul>
+<li><strong>Un <em>gateway</em> de Internet</strong>
+É o compoñente da VPC que proporciona acceso público a Internet encargándose de converter os enderezos de rede (NAT) das instáncias con enderezos IP públicos. É un compoñente altamente dispoñíbel, redundante e escalado horizontalmente.</li>
+<li><strong>Dous <em>gateways</em> NAT públicos</strong>
+Os <em>gateways</em> NAT públicos proporcionan acceso a Internet ás instáncias despregadas nas subredes privadas e impeden as conexións desde Internet a esas instancias. Este tipo de <em>gateways</em> NAT teñen que ter un <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html">enderezo IP elástico</a> asociado e requiren que a VPC na que están, teña asociado un <em>gateway</em> de Internet. Consulta a <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">documentación de AWS</a> para saber máis sobre a diferenza entre <em>gateways</em> NAT públicos e privados.<br />
+Para ter alta dispoñibilidade, despregouse un <em>gateway</em> NAT público en cada subrede pública. Comproba en cada <em>gateway</em> NAT o enderezo IP elástico que ten asociado (a IP pública do <em>gateway</em>) e a subrede na que está despregado.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Os <em>gateways</em> NAT son un dos poucos compoñentes dunha VPC polos que AWS cobra. O prezo depende das horas de uso e dos GB procesados polo <em>gateway</em>.</p>
+</div>
+<p><img alt="Gateway NAT" src="../img/vpc-gwnat01.png" />
+<em>Imaxe: gateway NAT público con IP elástica "35.171.197.120" na subrede "subnet-006e26a62e4e12200/xcpm2223-subnet-public2-us-east-1b".</em></p>
+<p><img alt="IP elásticas" src="../img/vpc-ipelastica01.png" />
+<em>Imaxe: enderezos IP elásticos asociados aos gateways NAT.</em></p>
+<h3 id="taboas-de-roteamento">Táboas de roteamento</h3>
+<p>Comproba as asociacións a subredes e rotas das táboas de roteamento que se crearon:</p>
+<ul>
+<li>A táboa asociada ás subredes públicas encamiña o tráfico dirixido fora da VPC para o <em>gateway</em> de Internet.</li>
+<li>As táboas asociadas ás subredes privadas encamiñan o tráfico dirixido fora da VPC para o gateway NAT da respectiva zona de dispoñibilidade.</li>
+</ul>
+<p><img alt="Táboa de roteamento pública: asociacións" src="../img/vpc-taboa01.png" />
+<em>Imaxe: táboa de roteamento asociada ás subredes públicas.</em></p>
+<p><img alt="Táboa de roteamento pública: rotas" src="../img/vpc-taboa03.png" />
+<em>Imaxe: rotas na táboa de roteamento asociada ás subredes públicas.</em></p>
+<p><img alt="Táboa de roteamento privada" src="../img/vpc-taboa02.png" />
+<em>Imaxe: táboa de roteamento asociada a unha subrede privada.</em></p>
+<p><img alt="Táboa de roteamento privada: rotas" src="../img/vpc-taboa04.png" />
+<em>Imaxe: rotas nunha táboa de roteamento asociada a unha subrede privada.</em></p>
+<p>Fíxate que as dúas táboas asociadas ás subredes privadas que están nunha mesma AZ fan o mesmo: o tráfico dirixido fora da VPC é encamiñado cara ao <em>gateway</em> NAT que está nesa mesma AZ. Polo tanto, como as rotas son as mesmas, podemos reducir o número de táboas de roteamento asociadas a subredes privadas, deixando só unha en cada AZ. Faino da seguinte maneira:</p>
+<ul>
+<li>En cada AZ, escolle unha das táboas de roteamento que encamiña o tráfico ao <em>gateway</em> NAT desa AZ e asóciaa ás dúas subredes privadas da AZ (a unha delas xa o estará). Elimina a outra táboa. Nas seguintes figuras amósase o estado antes e despois dos trocos nunha das AZ.</li>
+</ul>
+<p><img alt="Táboa de roteamento privada: antes" src="../img/vpc-taboa05.png" />
+<em>Imaxe: rotas das subredes privadas nunha das AZ antes dos trocos.</em></p>
+<p><img alt="Táboa de roteamento privada: despois" src="../img/vpc-taboa06.png" />
+<em>Imaxe: rotas das subredes privadas na mesma AZ despois dos trocos.</em></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Despregamento en AWS dunha arquitectura HA elástica de 2 capas"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../seguridade/" class="btn btn-neutral float-right" title="Paso 2: Configuración da seguridade">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../seguridade/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
