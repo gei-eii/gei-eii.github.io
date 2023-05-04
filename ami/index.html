@@ -228,12 +228,10 @@
 <pre><code class="language-sh">    sudo systemctl enable --now httpd
 </code></pre>
 <ol start="7">
-<li>Accede á páxina principal. Se a configuración se fixo correctamente, na saída amósase o DNS privado da instancia e o <em>endpoint</em> do clúster de BD.</li>
+<li>Accede á páxina principal. Se a configuración se fixo correctamente, devolverá a páxina principal da aplicación precedida dun erro indicando que non se atopou a BD <em>tasks</em>.</li>
 </ol>
-<pre><code class="language-sh">    curl localhost | grep host
+<pre><code class="language-sh">    curl localhost
 </code></pre>
-<p><img alt="curl da páxina principal" src="../img/app-paxina01.png" />
-<em>Imaxe: saída do comando curl.</em></p>
 <h2 id="crea-a-bd">Crea a BD</h2>
 <ol>
 <li>Crea a BD da aplicación executando o <em>script</em> <code>install.php</code>.</li>
@@ -244,8 +242,17 @@
 <p><img alt="Creación da BD" src="../img/app-paxina02.png" />
 <em>Imaxe: saída do comando que crea a BD.</em></p>
 <ol start="2">
-<li>Conéctate de novo ao clúster de BD Aurora e comproba co comando <code>SHOW DATABASES;</code> que agora hai unha nova BD chamada <em>tasks</em>.</li>
+<li>
+<p>Conéctate de novo ao clúster de BD Aurora e comproba co comando <code>SHOW DATABASES;</code> que agora hai unha nova BD chamada <em>tasks</em>.</p>
+</li>
+<li>
+<p>Repite o acceso á páxina. Agora, como parte da saída, amósase o DNS privado da instancia e o <em>endpoint</em> do clúster de BD</p>
+</li>
 </ol>
+<pre><code class="language-sh">    curl localhost | grep host
+</code></pre>
+<p><img alt="curl da páxina principal" src="../img/app-paxina01.png" />
+<em>Imaxe: saída do comando curl.</em></p>
 <h2 id="crea-a-ami">Crea a AMI</h2>
 <p>Vamos crear unha AMI da instáncia de aplicación que acabamos de configurar para usala posteriormente cando configuremos o balanceador de carga e o grupo de autoescalamento na capa de aplicación.</p>
 <ol>
