@@ -41,7 +41,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="..">Despregamento en AWS dunha arquitectura HA elástica de 2 capas</a>
+                <li class="toctree-l1"><a class="reference internal" href="..">Despregadura en AWS dunha arquitectura HA elástica de 2 capas</a>
                 </li>
               </ul>
               <ul>
@@ -108,7 +108,7 @@
                 <h1 id="paso-3-configuracion-da-capa-de-datos">Paso 3: Configuración da capa de datos</h1>
 <p>O seguinte paso vai ser a configuración da capa de datos da arquitectura. Vamos utilizar un cluster de BD Aurora despregado nas dúas AZ da nosa VPC para proporcionar alta dispoñibilidade nesta capa. En concreto, vamos configurar o seguinte:</p>
 <ul>
-<li>Un grupo de subredes para o despregamento do cluster de BD Aurora.</li>
+<li>Un grupo de subredes para a despregadura do cluster de BD Aurora.</li>
 <li>O cluster de BD Aurora en configuración multi-AZ.</li>
 </ul>
 <p><img alt="Compoñentes da capa de datos" src="../img/bd-componentes01.png" />
@@ -121,7 +121,7 @@
 <li>
 <p>Escolle a opción para crear un novo grupo de subrede e indica as opcións seguintes:</p>
 <ul>
-<li>Nome: dalle un nome ao grupo. Lembra poñer as tuas iniciais seguidas do curso académico, p.e. <strong>xcpm2223-db-subnets</strong>.</li>
+<li>Nome: dalle un nome ao grupo. Lembra poñer as tuas iniciais seguidas do curso académico, p.ex. <strong>xcpm2223-db-subnets</strong>.</li>
 <li>Descrición: pon unha descrición para o grupo.</li>
 <li>VPC: escolle a VPC que creaches para a arquitectura.</li>
 <li>Zonas de dispoñibilidade: escolle as dúas AZ nas que están as subredes privadas que se crearon como parte da VPC.</li>
@@ -132,7 +132,7 @@
 <p><img alt="Grupos de subrede" src="../img/bd-subnets01.png" />
 <em>Imaxe: configuración dos grupos de subrede.</em></p>
 <h2 id="crea-o-cluster-de-bd-aurora">Crea o cluster de BD Aurora</h2>
-<p>Antes de crear o cluster, consulta a documentación de AWS para coñecer os conceptos básicos sobre os <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.html">clústeres de BD Aurora</a>. Para crear o cluster fai o seguinte:</p>
+<p>Antes de crear o cluster, consulta a documentación de AWS para coñecer os conceptos básicos sobre os <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.html">clusteres de BD Aurora</a>. Para crear o cluster fai o seguinte:</p>
 <ol>
 <li>No menú do servizo RDS, escolle a opción: <strong>Bases de datos</strong>.</li>
 <li>
@@ -146,24 +146,24 @@
 <ul>
 <li>Modelo: <strong>Dev/Test</strong></li>
 <li>Configuracións: <ul>
-<li>Dalle un nome ao cluster. Lembra poñer as tuas iniciais seguidas do curso académico, p.e. <strong>xcpm2223-db-cluster</strong>.</li>
+<li>Dalle un nome ao cluster. Lembra poñer as tuas iniciais seguidas do curso académico, p.ex. <strong>xcpm2223-db-cluster</strong>.</li>
 <li>Contrasinal principal: insire unha seña para o usuario <strong>admin</strong> da BD.</li>
 </ul>
 </li>
 </ul>
 <p><img alt="Configuración da BD: modelo e configuracións" src="../img/bd-config02.png" />
-<em>Imaxe: configuración do modelo e configuracións do clúster de BD.</em></p>
+<em>Imaxe: configuración do modelo e configuracións do cluster de BD.</em></p>
 <ul>
-<li>Configuración da instancia: escolle unha instancia de tipo <strong>db.t3.small</strong> (para que apareza na listaxe tes que activar a opción para ver as instancias da clase t).</li>
+<li>Configuración da instancia: escolle unha instancia de tipo <strong>db.t3.medium</strong> (para que apareza na listaxe tes que activar a opción para ver as instancias da clase t).</li>
 <li>Dispoñibilidade: activa a opción para crear unha réplica de lectura nunha AZ diferente.</li>
 </ul>
 <p><img alt="Configuración da BD: instancia e dispoñibilidade" src="../img/bd-config03.png" />
-<em>Imaxe: configuración da instancia e dispoñibilidade do clúster de BD.</em></p>
+<em>Imaxe: configuración da instancia e dispoñibilidade do cluster de BD.</em></p>
 <ul>
 <li>Conectividade: escolle a VPC que creaches para a arquitectura, o grupo de subredes que se creou anteriormente e o grupo de seguridade da capa de datos. Asegúrate de que o acceso público ao cluster estea desactivado.</li>
 </ul>
 <p><img alt="Configuración da BD: conectividade" src="../img/bd-config04.png" />
-<em>Imaxe: configuración da conectividade do clúster de BD.</em></p>
+<em>Imaxe: configuración da conectividade do cluster de BD.</em></p>
 <ul>
 <li>Monitoramento: desactiva o monitoramento avanzado.</li>
 <li>Configuración adicional: desactiva o cifrado da BD e a actualización automática de versións secundarias.</li>
@@ -172,7 +172,7 @@
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>Non aceptes ningún dos <em>add-ons</em> suxeridos durante a creación do cluster.</p>
+<p>Non aceptes ningún dos complementos suxeridos durante a creación do cluster.</p>
 </div>
 <p>Unha vez creado o cluster, haberá dúas instancias, unha de escritura e outra de lectura, distribuidas entre as subredes do grupo de subredes que configuramos anteriormente. </p>
 <div class="admonition important">
@@ -183,7 +183,7 @@
 <em>Imaxe: propiedades do cluster de BD Aurora.</em></p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>Para que o clúster non xere custos innecesarios cando non o esteas usando, podes paralo usando a opción <strong>Interromper temporalmente</strong> do menú de accións. Isto fai que se paren as instancias do clúster durante un período máximo de 7 días. Se non se inician antes manualmente, pasado ese período o laboratorio as iniciará automaticamente.</p>
+<p>Para que o cluster non xere custos innecesarios cando non o esteas usando, podes paralo usando a opción <strong>Interromper temporalmente</strong> do menú de accións. Isto fai que se paren as instancias do cluster durante un período máximo de 7 días. Se non se inician antes manualmente, pasado ese período o laboratorio iniciaraas automaticamente.</p>
 </div>
               
             </div>

@@ -41,7 +41,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="..">Despregamento en AWS dunha arquitectura HA elástica de 2 capas</a>
+                <li class="toctree-l1"><a class="reference internal" href="..">Despregadura en AWS dunha arquitectura HA elástica de 2 capas</a>
                 </li>
               </ul>
               <ul>
@@ -73,9 +73,9 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#avaria-na-instancia-da-aplicacion">Avaría na instancia da aplicación</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#avaria-no-volume-do-cluster-de-bd-aurora">Avaría no volume do clúster de BD Aurora</a>
+    <li class="toctree-l2"><a class="reference internal" href="#avaria-no-volume-do-cluster-de-bd-aurora">Avaría no volume do cluster de BD Aurora</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#avaria-na-instancia-primaria-do-cluster-de-bd-aurora">Avaría na instancia primaria do clúster de BD Aurora</a>
+    <li class="toctree-l2"><a class="reference internal" href="#avaria-na-instancia-primaria-do-cluster-de-bd-aurora">Avaría na instancia primaria do cluster de BD Aurora</a>
     </li>
     </ul>
                 </li>
@@ -112,14 +112,14 @@
 <p>Hai diferentes alternativas entre as que escoller á hora de preparar probas de inxección de fallas en AWS. Por exemplo: </p>
 <ul>
 <li>Usar o servizo <a href="https://aws.amazon.com/fis/"><em>Fault Injection Simulator</em> (FIS)</a>.</li>
-<li>Simular as fallas usando os comandos da CLI de AWS, as opcións dispoñíbeis nas consolas dos servizos, ou o soporte nativo incluído nalgúns servizos (p.e. Aurora).</li>
-<li>Usar <em>scripts</em>, programas e/ou ferramentas (p.e. <a href="https://chaostoolkit.org">Chaos Toolkit</a> ou <a href="https://www.gremlin.com/">Gremlin</a>) que simulen as fallas mediante chamadas a API dos servizos.</li>
+<li>Simular as fallas usando os comandos da CLI de AWS, as opcións dispoñíbeis nas consolas dos servizos, ou o soporte nativo incluído nalgúns servizos (p.ex. Aurora).</li>
+<li>Usar <em>scripts</em>, programas e/ou ferramentas (p.ex. <a href="https://chaostoolkit.org">Chaos Toolkit</a> ou <a href="https://www.gremlin.com/">Gremlin</a>) que simulen as fallas mediante chamadas a API dos servizos.</li>
 </ul>
 <p>Como o servizo FIS non está incluído nos laboratorios de AWS Academy, e as probas que vamos facer son simples, vamos inxectar as fallas usando unha combinación de comandos da CLI de AWS e consultas SQL para inxección de fallas dispoñíbeis en Aurora. Os escenarios que vamos probar son os seguintes:</p>
 <ul>
 <li>A avaría da instancia da aplicación.</li>
-<li>A avaría do volume do clúster de BD Aurora.</li>
-<li>A avaría da instancia primaria do clúster de BD Aurora.</li>
+<li>A avaría do volume do cluster de BD Aurora.</li>
+<li>A avaría da instancia primaria do cluster de BD Aurora.</li>
 </ul>
 <h2 id="avaria-na-instancia-da-aplicacion">Avaría na instancia da aplicación</h2>
 <p>Para simular unha avaría na instancia da aplicación vamos usar un comando da CLI de AWS para terminala. Fai o seguinte:</p>
@@ -141,7 +141,7 @@ aws ec2 terminate-instances --instance-ids $instance_id
 <p class="admonition-title">Nota</p>
 <p>Mentres se produce o cambio de instancia, recarga varias veces a páxina da aplicación para comprobar como se perde a conexión e, unha vez a nova instancia estea iniciada, volve recuperarse.</p>
 </div>
-<p><img alt="Inxección de fallas na instancia: grupo de autoescalado" src="../img/test-ha02.png" />
+<p><img alt="Inxección de fallas na instancia: grupo de autoescalamento" src="../img/test-ha02.png" />
 <em>Imaxe: histórico do grupo de escalamento no que se amosa como se detectou que a instancia foi terminada e se iniciou unha nova para substituíla e manter a capacidade mínima configurada no grupo.</em></p>
 <p>O comportamento observado na proba anterior pode non ser aceptábel en escenarios nos que se requira un tempo medio de restauración do servizo (MTTRS) inferior ao tempo necesario para repor a instancia afectada pola falla. Para evitar a perda de conexión coa páxina da aplicación, unha solución sería manter unha capacidade mínima de dúas instancias repartidas entre as dúas AZ do grupo de escalamento. Vamos repetir o experimento con esa configuración para verificar se se comporta consonte ao agardado. Fai o seguinte:</p>
 <ol start="4">
@@ -163,12 +163,12 @@ aws ec2 terminate-instances --instance-ids $instance_id
 <p class="admonition-title">Nota</p>
 <p>Agora, se recargas varias veces a páxina da aplicación mentres se repón a instancia, aínda que pode haber cortes puntuais, a conexión se recupera, xa que seguimos tendo unha instancia en execución que se fai cargo das solicitudes.</p>
 </div>
-<p><img alt="Inxección de fallas na instancia: grupo de autoescalado" src="../img/test-ha04.png" />
+<p><img alt="Inxección de fallas na instancia: grupo de autoescalamento" src="../img/test-ha04.png" />
 <em>Imaxe: histórico do grupo de escalamento no que se amosa como se lanzou unha nova instancia ao cambiar a configuración do grupo e como, posteriormente, se detectou que unha instancia foi terminada e se iniciou unha nova para substituíla e manter a capacidade mínima configurada no grupo.</em></p>
 <ol start="7">
 <li>Deixa a configuración do tamaño do grupo de autoescalamento nos seus valores orixinais, <strong>capacidade mínima</strong> e <strong>capacidade desexada</strong> a 1 e <strong>capacidade máxima</strong> a 2. Agarda a que o grupo de escalamento aplique os cambios e quede unha única instancia rexistrada no grupo de destino do balanceador.</li>
 </ol>
-<h2 id="avaria-no-volume-do-cluster-de-bd-aurora">Avaría no volume do clúster de BD Aurora</h2>
+<h2 id="avaria-no-volume-do-cluster-de-bd-aurora">Avaría no volume do cluster de BD Aurora</h2>
 <p>Aurora fornece de maneira nativa <a href="https://aws.amazon.com/pt/blogs/architecture/perform-chaos-testing-on-your-amazon-aurora-cluster/">consultas SQL para inxección de fallas</a> que permiten simular fallas nas instancias ou no volume de almacenamento. Vamos usar estas consultas para simular unha falla no almacenamento. Fai o seguinte:</p>
 <ol>
 <li>Desde a páxina web da aplicación, crea unha nova tarefa. </li>
@@ -202,48 +202,48 @@ aws ec2 terminate-instances --instance-ids $instance_id
 <p>Agora a aplicación deixa de respostar durante un tempo porque non é quen de realizar escrituras na BD.</p>
 </div>
 <p><img alt="Inxección de fallas na instancia: grupo de destino" src="../img/test-ha05.png" />
-<em>Imaxe: mensaxe de erro na conexión co clúster de BD.</em></p>
+<em>Imaxe: exemplo da mensaxe de erro na conexión co cluster de BD (a mensaxe pode ser diferente no teu caso).</em></p>
 <ol start="9">
 <li>Cando transcorran os 3 minutos da simulación da falla, a aplicación recuperará o seu comportamento normal. Compróbao repetindo os puntos 1 e 2.</li>
 </ol>
-<h2 id="avaria-na-instancia-primaria-do-cluster-de-bd-aurora">Avaría na instancia primaria do clúster de BD Aurora</h2>
-<p>Vamos simular agora unha falla na instancia primaria do clúster de BD Aurora e comprobar se se realiza o <em>failover</em> (promoción da réplica de lectura a primario) correctamente e como iso afecta á dispoñibilidade da aplicación. Vamos usar un comando da CLI de AWS aínda que se podería facer tamén usando a opción <strong>Failover</strong> que hai no menú de accións das instancias do clúster na consola do servizo RDS. Fai o seguinte:</p>
+<h2 id="avaria-na-instancia-primaria-do-cluster-de-bd-aurora">Avaría na instancia primaria do cluster de BD Aurora</h2>
+<p>Vamos simular agora unha falla na instancia primaria do cluster de BD Aurora e comprobar se se realiza o <em>failover</em> (promoción da réplica de lectura a primario) correctamente e como iso afecta á dispoñibilidade da aplicación. Vamos usar un comando da CLI de AWS aínda que se podería facer tamén usando a opción <strong>Failover</strong> que hai no menú de accións das instancias do cluster na consola do servizo RDS. Fai o seguinte:</p>
 <ol>
-<li>Na consola de RDS comproba o estado actual do clúster de BD Aurora. Fíxate no rol que ten cada instancia.</li>
+<li>Na consola de RDS comproba o estado actual do cluster de BD Aurora. Fíxate no rol que ten cada instancia.</li>
 </ol>
 <p><img alt="Inxección de fallas na instancia primaria da BD: estado na consola RDS" src="../img/test-ha06.png" />
-<em>Imaxe: estado inicial das instancias do clúster de BD.</em></p>
+<em>Imaxe: estado inicial das instancias do cluster de BD.</em></p>
 <ol start="2">
-<li>No terminal do laboratorio de AWS Academy, comproba cal é a instancia primaria do clúster executando o seguinte comando:</li>
+<li>No terminal do laboratorio de AWS Academy, comproba cal é a instancia primaria do cluster executando o seguinte comando:</li>
 </ol>
 <pre><code class="language-sh">aws rds describe-db-clusters --query &quot;DBClusters[0].DBClusterMembers[?IsClusterWriter].DBInstanceIdentifier&quot; --output text
 </code></pre>
 <p><img alt="Inxección de fallas na instancia primaria da BD: estado na consola RDS" src="../img/test-ha07.png" />
-<em>Imaxe: identificador da instancia primaria do clúster de BD usando a CLI de AWS.</em></p>
+<em>Imaxe: identificador da instancia primaria do cluster de BD usando a CLI de AWS.</em></p>
 <ol start="3">
-<li>Forza o <em>failover</em> do clúster executando os comandos seguintes no terminal do laboratorio de AWS Academy:</li>
+<li>Forza o <em>failover</em> do cluster executando os comandos seguintes no terminal do laboratorio de AWS Academy:</li>
 </ol>
-<pre><code class="language-sh"># almacena o ID do clúster de BD Aurora
+<pre><code class="language-sh"># almacena o ID do cluster de BD Aurora
 cluster_id=`aws rds describe-db-clusters --query &quot;DBClusters[0].DBClusterIdentifier&quot; --output text`
 # forza o failover do cluster
 aws rds failover-db-cluster --db-cluster-identifier $cluster_id
 </code></pre>
 <p><img alt="Inxección de fallas na instancia primaria da BD: comando na CLI de AWS" src="../img/test-ha08.png" />
-<em>Imaxe: forzado dun failover do clúster de BD usando a CLI de AWS.</em></p>
+<em>Imaxe: forzado dun failover do cluster de BD usando a CLI de AWS.</em></p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>Mentres se leva a cabo o <em>failover</em>, recarga varias veces a páxina da aplicación para comprobar se se perde a conexión.</p>
 </div>
 <ol start="4">
-<li>Comproba na consola de RDS e no terminal do laboratorio de AWS Academy o estado do clúster despois do <em>failover</em>.</li>
+<li>Comproba na consola de RDS e no terminal do laboratorio de AWS Academy o estado do cluster despois do <em>failover</em>.</li>
 </ol>
 <p><img alt="Inxección de fallas na instancia primaria da BD: consola de RDS" src="../img/test-ha09.png" />
-<em>Imaxe: estado do clúster despois do failover. Os roles das instancias intercambiaronse.</em></p>
+<em>Imaxe: estado do cluster despois do failover. Os roles das instancias intercambiaronse.</em></p>
 <p><img alt="Inxección de fallas na instancia primaria da BD: comando na CLI de AWS" src="../img/test-ha10.png" />
-<em>Imaxe: a replica de só lectura pasou a ser a instancia primaria do clúster despois do failover.</em></p>
+<em>Imaxe: a replica de só lectura pasou a ser a instancia primaria do cluster despois do failover.</em></p>
 <ol start="5">
-<li>Repite os puntos 3 e 4 para provocar outro <em>failover</em> e comproba que se recupera o estado inicial do clúster.</li>
-<li>Na consola de RDS, comproba na lapela <strong>Logs e eventos</strong> das propiedades do clúster que aparecen os eventos dos dous <em>failovers</em> que se fixeron.</li>
+<li>Repite os puntos 3 e 4 para provocar outro <em>failover</em> e comproba que se recupera o estado inicial do cluster.</li>
+<li>Na consola de RDS, comproba na lapela <strong>Logs e eventos</strong> das propiedades do cluster que aparecen os eventos dos dous <em>failovers</em> que se fixeron.</li>
 </ol>
 <p><img alt="Inxección de fallas na instancia primaria da BD: eventos" src="../img/test-ha11.png" />
 <em>Imaxe: eventos dos dous failovers.</em></p>

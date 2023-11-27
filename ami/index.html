@@ -41,7 +41,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="..">Despregamento en AWS dunha arquitectura HA elástica de 2 capas</a>
+                <li class="toctree-l1"><a class="reference internal" href="..">Despregadura en AWS dunha arquitectura HA elástica de 2 capas</a>
                 </li>
               </ul>
               <ul>
@@ -124,10 +124,10 @@
 <h2 id="inicia-unha-instancia-ec2">Inicia unha instancia EC2</h2>
 <p>Desde a consola do servizo EC2, inicia unha instancia coa configuración seguinte:</p>
 <ul>
-<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-server</strong></li>
-<li>AMI: <strong>Amazon Linux 2</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.ex. <strong>xcpm2223-app-server</strong></li>
+<li>AMI: <strong>Amazon Linux 2023</strong></li>
 <li>Tipo de instancia: <strong>t2.micro</strong></li>
-<li>Par de chaves: non escollas ningún. Vamos usar o <em>System Session Manager</em> para conectarnos á instancia.</li>
+<li>Par de chaves: escolle a opción de continuar sen un par de chaves. Vamos usar o <em>System Session Manager</em> para conectarnos á instancia.</li>
 <li>Rede: escolle a VPC que creaches para a arquitectura, unha das subredes privadas que se crearon para a capa de aplicación e o grupo de seguridade da capa de aplicación.</li>
 <li>Detalles avanzados: escolle o perfil de instancia IAM  <strong>LabInstanceProfile</strong>, que xa está predefinido no laboratorio de AWS Academy.</li>
 </ul>
@@ -151,7 +151,7 @@
 </div>
 </li>
 <li>
-<p>O usuario co que se inicia a sesión é <strong>ssm-user</strong> por defecto. Aínda que poderiamos facer a configuración desde esta conta, vamos a configurar a aplicación desde a do usuario <strong>ec2-user</strong>.</p>
+<p>O usuario co que se inicia a sesión é <strong>ssm-user</strong> por defecto. Aínda que poderiamos facer a configuración desde esta conta, vamos configurar a aplicación desde a do usuario <strong>ec2-user</strong>.</p>
 </li>
 </ol>
 <pre><code class="language-sh">    sudo -iu ec2-user
@@ -169,10 +169,13 @@
 <ol>
 <li>Instala o cliente MySQL.</li>
 </ol>
-<pre><code class="language-sh">    sudo yum -y install mysql
+<pre><code class="language-sh">    sudo dnf update -y
+    wget https://dev.mysql.com/get/mysql80-community-release-el9-5.noarch.rpm
+    sudo dnf install mysql80-community-release-el9-5.noarch.rpm
+    sudo dnf install -y mysql-community-client
 </code></pre>
 <ol start="2">
-<li>Conéctate ao clúster de BD Aurora. Usa o <em>endpoint</em> da instancia de escritura que copiaches ao configurar o clúster e o contrasinal que configuraras para o usuario <strong>admin</strong>.</li>
+<li>Conéctate ao cluster de BD Aurora. Usa o <em>endpoint</em> da instancia de escritura que copiaches ao configurar o cluster e o contrasinal que configuraras para o usuario <strong>admin</strong>.</li>
 </ol>
 <pre><code class="language-sh">    mysql -h &lt;endpoint_da_instancia_de_escritura&gt; -u admin -p
 </code></pre>
@@ -192,7 +195,7 @@
 <ol>
 <li>Instala Apache, git, PHP e as extensións PHP para MySQL.</li>
 </ol>
-<pre><code class="language-sh">    sudo yum -y install httpd git php php-pdo php-mysql
+<pre><code class="language-sh">    sudo dnf install -y httpd git php php-pdo php-mysqli
 </code></pre>
 <ol start="2">
 <li>Descarga a aplicación.</li>
@@ -212,15 +215,15 @@
 </code></pre>
 <ol start="5">
 <li>Edita o ficheiro <code>/var/www/configs/config.php</code> cos datos seguintes: <ul>
-<li><em>host</em>: o <em>endpoint</em> da instancia de escritura que copiaches ao configurar o clúster de BD Aurora.</li>
+<li><em>host</em>: o <em>endpoint</em> da instancia de escritura que copiaches ao configurar o cluster de BD Aurora.</li>
 <li><em>username</em>: <strong>admin</strong></li>
-<li><em>password</em>: o contrasinal que configuraras para o usuario <strong>admin</strong> ao crear o clúster de BD Aurora.</li>
+<li><em>password</em>: o contrasinal que configuraras para o usuario <strong>admin</strong> ao crear o cluster de BD Aurora.</li>
 </ul>
 </li>
 </ol>
 <div class="admonition important">
 <p class="admonition-title">Importante</p>
-<p><strong>Isto non é considerado como unha boa prática</strong>. AWS recomenda usar o servizo <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html"><em>Secrets Manager</em></a> para gardar esta información de maneira segura. Facémolo así por simplificar a práctica.</p>
+<p><strong>Isto non é considerado como unha boa práctica</strong>. AWS recomenda usar o servizo <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html"><em>Secrets Manager</em></a> para gardar esta información de maneira segura. Facémolo así por simplificar a práctica.</p>
 </div>
 <ol start="6">
 <li>Activa e inicia Apache.</li>
@@ -243,10 +246,10 @@
 <em>Imaxe: saída do comando que crea a BD.</em></p>
 <ol start="2">
 <li>
-<p>Conéctate de novo ao clúster de BD Aurora e comproba co comando <code>SHOW DATABASES;</code> que agora hai unha nova BD chamada <em>tasks</em>.</p>
+<p>Conéctate de novo ao cluster de BD Aurora e comproba co comando <code>SHOW DATABASES;</code> que agora hai unha nova BD chamada <em>tasks</em>.</p>
 </li>
 <li>
-<p>Repite o acceso á páxina. Agora, como parte da saída, amósase o DNS privado da instancia e o <em>endpoint</em> do clúster de BD</p>
+<p>Repite o acceso á páxina. Agora, como parte da saída, amósase o DNS privado da instancia e o <em>endpoint</em> do cluster de BD</p>
 </li>
 </ol>
 <pre><code class="language-sh">    curl localhost | grep host
@@ -259,7 +262,7 @@
 <li>
 <p>No menú de accións da instancia, submenú <strong>Imaxes e modelos</strong>, escolle a opción <strong>Crear imaxe</strong> para crear unha AMI coas opcións seguintes:</p>
 <ul>
-<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-ami</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.ex. <strong>xcpm2223-app-ami</strong></li>
 <li>Descrición: escribe unha descrición para a túa AMI.</li>
 </ul>
 <p><img alt="AMI da aplicación" src="../img/app-ami01.png" />

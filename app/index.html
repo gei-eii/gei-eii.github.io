@@ -41,7 +41,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="..">Despregamento en AWS dunha arquitectura HA elástica de 2 capas</a>
+                <li class="toctree-l1"><a class="reference internal" href="..">Despregadura en AWS dunha arquitectura HA elástica de 2 capas</a>
                 </li>
               </ul>
               <ul>
@@ -67,7 +67,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#crea-o-balanceador-de-carga">Crea o balanceador de carga</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#crea-o-modelo-de-lanzamento">Crea o modelo de lanzamento</a>
+    <li class="toctree-l2"><a class="reference internal" href="#crea-o-modelo-de-execucion">Crea o modelo de execución</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#crea-o-grupo-de-autoescalamento">Crea o grupo de autoescalamento</a>
     </li>
@@ -116,7 +116,7 @@
 <ul>
 <li>Un grupo de destino</li>
 <li>Un balanceador de carga</li>
-<li>Un modelo de lanzamento</li>
+<li>Un modelo de execución</li>
 <li>Un grupo de autoescalamento </li>
 </ul>
 <p><img alt="Compoñentes da capa de aplicación" src="../img/app-componentes01.png" />
@@ -129,7 +129,7 @@
 <p>Crea un grupo premendo no botón <strong>Crear grupo de destino</strong> e indica as opcións seguintes no asistente:</p>
 <ul>
 <li>Tipo de destino: <strong>Instancias</strong></li>
-<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-targetgroup</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.ex. <strong>xcpm2223-app-targetgroup</strong></li>
 <li>Protocolo e porta: <strong>HTTP:80</strong></li>
 <li>VPC: escolle a VPC que creaches para a arquitectura.</li>
 </ul>
@@ -149,7 +149,7 @@
 <li>
 <p>No asistente para crear un balanceador de carga de aplicacións indica as opcións seguintes:</p>
 <ul>
-<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-alb</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.ex. <strong>xcpm2223-app-alb</strong></li>
 <li>Esquema: exposto a Internet. Consulta a <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#load-balancer-scheme">documentación de AWS</a> para ver cal é a diferenza cun balanceador interno.</li>
 </ul>
 <p><img alt="Balanceador de carga de aplicacións: configuración básica" src="../img/app-alb01.png" />
@@ -173,16 +173,16 @@
 <em>Imaxe: propiedades do balanceador.</em></p>
 </li>
 </ol>
-<h2 id="crea-o-modelo-de-lanzamento">Crea o modelo de lanzamento</h2>
-<p>Unha vez configurado o balanceador de carga, vamos agora configurar o escalamento da nosa capa de aplicación. Comezaremos por crear un <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html">modelo de lanzamento</a> que use a AMI que creamos previamente para a nosa aplicación. Fai o seguinte:</p>
+<h2 id="crea-o-modelo-de-execucion">Crea o modelo de execución</h2>
+<p>Unha vez configurado o balanceador de carga, vamos agora configurar o escalamento da nosa capa de aplicación. Comezaremos por crear un <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html">modelo de execución</a> que use a AMI que creamos previamente para a nosa aplicación. Fai o seguinte:</p>
 <ol>
-<li>No menú da consola de EC2, dentro do submenú <strong>Instancias</strong>, escolle a opción <strong>Modelos de lanzamento</strong>.</li>
+<li>No menú da consola de EC2, dentro do submenú <strong>Instancias</strong>, escolle a opción <strong>Modelos de execución</strong>.</li>
 <li>
-<p>Crea un novo modelo premendo no botón <strong>Crear modelo de lanzamento</strong> indicando as opcións seguintes:</p>
+<p>Crea un novo modelo premendo no botón <strong>Crear modelo de execución</strong> indicando as opcións seguintes:</p>
 <ul>
-<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-launchcfg</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.ex. <strong>xcpm2223-app-launchcfg</strong></li>
 <li>Descrición: escribe unha descrición para o teu modelo.</li>
-<li>Orientación sobre o <em>Autoscaling</em>: activa a opción para que o asistente nos avise se algo non está ben configurado para poder usar o modelo co autoescalamento de EC2.</li>
+<li>Orientación sobre o <em>Auto Scaling</em>: activa a opción para que o asistente nos avise se algo non está ben configurado para poder usar o modelo co autoescalamento de EC2.</li>
 <li>AMI: escolle a AMI da aplicación que creaches no paso de configuración da aplicación.</li>
 <li>Tipo de instancia: <strong>t2.micro</strong></li>
 <li>Par de chaves: escolle <strong>NON</strong> engadilas ao modelo.</li>
@@ -191,22 +191,22 @@
 <li>Detalles avanzados: escolle o perfil de instancia IAM <strong>LabInstanceProfile</strong>, que xa está predefinido no laboratorio de AWS Academy.</li>
 </ul>
 <p><img alt="Modelo de lanzamento: configuración" src="../img/app-launchcfg01.png" />
-<em>Imaxe: parte da configuración do modelo de lanzamento.</em></p>
+<em>Imaxe: parte da configuración do modelo de execución.</em></p>
 </li>
 <li>
-<p>Acepta para crear o modelo de lanzamento.</p>
+<p>Acepta para crear o modelo de execución.</p>
 <p><img alt="Modelo de lanzamento: propiedades" src="../img/app-launchcfg02.png" />
-<em>Imaxe: propiedades do modelo de lanzamento.</em></p>
+<em>Imaxe: propiedades do modelo de execución.</em></p>
 </li>
 </ol>
 <h2 id="crea-o-grupo-de-autoescalamento">Crea o grupo de autoescalamento</h2>
-<p>Para finalizar este paso, vamos agora crear o grupo de escalamento a partir do modelo de lanzamento. Fai o seguinte:</p>
+<p>Para finalizar este paso, vamos agora crear o grupo de escalamento a partir do modelo de execución. Fai o seguinte:</p>
 <ol>
-<li>Selecciona o modelo de lanzamento que ves de crear e no menú de accións do modelo escolle a opción <strong>Crear grupo de autoescalamento</strong>. </li>
+<li>Selecciona o modelo de execución que ves de crear e no menú de accións do modelo escolle a opción <strong>Crear grupo de autoescalamento</strong>. </li>
 <li>
 <p>No asistente para crear o grupo indica as seguintes opcións:</p>
 <ul>
-<li>Nome: dalle un nome precedido do teu prefixo e curso, p.e. <strong>xcpm2223-app-scaling</strong></li>
+<li>Nome: dalle un nome precedido do teu prefixo e curso, p.ex. <strong>xcpm2223-app-scaling</strong></li>
 <li>Modelo de lanzamento: comproba que xa aparece configurado o modelo que creaches previamente.</li>
 <li>Rede: escolle a VPC que creaches para a arquitectura e as subredes privadas que se crearon para a capa de aplicación.</li>
 </ul>
