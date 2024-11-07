@@ -3,26 +3,25 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Xoan C. Pardo" /><link rel="canonical" href="https://gei-eii.github.io/seguridade/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Xoan C. Pardo" /><link rel="canonical" href="https://gei-eii.github.io/seguranza/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Paso 2: Configuración da seguridade - EII P3 AWS</title>
+    <title>Paso 2: Configuración da seguranza - EII P3 AWS</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Paso 2: Configuraci\u00f3n da seguridade";
-        var mkdocs_page_input_path = "seguridade.md";
-        var mkdocs_page_url = "/seguridade/";
+        var mkdocs_page_name = "Paso 2: Configuraci\u00f3n da seguranza";
+        var mkdocs_page_input_path = "seguranza.md";
+        var mkdocs_page_url = "/seguranza/";
       </script>
     
-    <script src="../js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -34,7 +33,7 @@
           <a href=".." class="icon icon-home"> EII P3 AWS
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,13 +48,13 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 2: Configuración da seguridade</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Paso 2: Configuración da seguranza</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#grupo-de-seguridade-do-balanceador-de-carga">Grupo de seguridade do balanceador de carga</a>
+    <li class="toctree-l2"><a class="reference internal" href="#grupo-de-seguranza-do-balanceador-de-carga">Grupo de seguranza do balanceador de carga</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#grupo-de-seguridade-da-capa-de-aplicacion">Grupo de seguridade da capa de aplicación</a>
+    <li class="toctree-l2"><a class="reference internal" href="#grupo-de-seguranza-da-capa-de-aplicacion">Grupo de seguranza da capa de aplicación</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#grupo-de-seguridade-da-capa-de-datos">Grupo de seguridade da capa de datos</a>
+    <li class="toctree-l2"><a class="reference internal" href="#grupo-de-seguranza-da-capa-de-datos">Grupo de seguranza da capa de datos</a>
     </li>
     </ul>
                 </li>
@@ -97,8 +96,8 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Paso 2: Configuración da seguridade</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Paso 2: Configuración da seguranza</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -107,21 +106,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="paso-2-configuracion-da-seguridade">Paso 2: Configuración da seguridade</h1>
-<p>Vamos configurar agora os grupos de seguridade que van permitir/denegar o tráfico de rede entre as diferentes capas da nosa arquitectura. En concreto, vamos crear tres grupos:</p>
+                <h1 id="paso-2-configuracion-da-seguranza">Paso 2: Configuración da seguranza</h1>
+<p>Vamos configurar agora os grupos de seguranza que van permitir/denegar o tráfico de rede entre as diferentes capas da nosa arquitectura. En concreto, vamos crear tres grupos:</p>
 <ul>
 <li>Para o balanceador de carga.</li>
 <li>Para as instancias da capa de aplicación.</li>
 <li>Para as instancias da capa de datos.</li>
 </ul>
 <p>A configuración dos grupos farase de xeito que o tráfico desde Internet só estea permitido no balanceador, que a capa de aplicación só acepte tráfico desde o balanceador, e que a capa de datos só acepte tráfico desde a de aplicación.</p>
-<h2 id="grupo-de-seguridade-do-balanceador-de-carga">Grupo de seguridade do balanceador de carga</h2>
-<p>Para crear o grupo de seguridade para o balanceador de carga fai o seguinte:</p>
+<h2 id="grupo-de-seguranza-do-balanceador-de-carga">Grupo de seguranza do balanceador de carga</h2>
+<p>Para crear o grupo de seguranza para o balanceador de carga fai o seguinte:</p>
 <ol>
 <li>Desde a consola de AWS, accede ao servizo VPC.</li>
-<li>No menú do servizo VPC, escolle a opción: <strong>Grupos de seguridade</strong>.</li>
+<li>No menú do servizo VPC, escolle a opción: <strong>Grupos de seguranza</strong>.</li>
 <li>
-<p>Escolle a opción para crear un novo grupo de seguridade e indica as opcións seguintes:</p>
+<p>Escolle a opción para crear un novo grupo de seguranza e indica as opcións seguintes:</p>
 <ul>
 <li>Nome: dalle un nome ao grupo. Lembra poñer as tuas iniciais seguidas do curso académico, p.ex. <strong>xcpm2223-elb-sg</strong>.</li>
 <li>Descrición: pon unha descrición para o grupo.</li>
@@ -130,32 +129,32 @@
 </ul>
 </li>
 </ol>
-<p><img alt="Grupo de seguridade do ELB" src="../img/sg-elb01.png" />
-<em>Imaxe: grupo de seguridade do ELB.</em></p>
-<h2 id="grupo-de-seguridade-da-capa-de-aplicacion">Grupo de seguridade da capa de aplicación</h2>
-<p>Para as instancias da capa de aplicación, crea outro grupo de seguridade coa configuración seguinte:</p>
+<p><img alt="Grupo de seguranza do ELB" src="../img/sg-elb01.png" />
+<em>Imaxe: grupo de seguranza do ELB.</em></p>
+<h2 id="grupo-de-seguranza-da-capa-de-aplicacion">Grupo de seguranza da capa de aplicación</h2>
+<p>Para as instancias da capa de aplicación, crea outro grupo de seguranza coa configuración seguinte:</p>
 <ul>
 <li>Nome: dalle un nome ao grupo. Lembra poñer as tuas iniciais seguidas do curso académico, p.ex. <strong>xcpm2223-app-sg</strong>.</li>
 <li>Descrición: pon unha descrición para o grupo.</li>
 <li>VPC: escolle a VPC que creaches para a arquitectura.</li>
-<li>Regras de entrada: crea regras para permitir o tráfico HTTP e HTTPS <strong>desde o grupo de seguridade do balanceador de carga</strong>.</li>
+<li>Regras de entrada: crea regras para permitir o tráfico HTTP e HTTPS <strong>desde o grupo de seguranza do balanceador de carga</strong>.</li>
 </ul>
-<p><img alt="Grupo de seguridade da capa de aplicación" src="../img/sg-app01.png" />
-<em>Imaxe: grupo de seguridade da capa de aplicación.</em></p>
+<p><img alt="Grupo de seguranza da capa de aplicación" src="../img/sg-app01.png" />
+<em>Imaxe: grupo de seguranza da capa de aplicación.</em></p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>Aínda que se engadiran regras para o tráfico HTTPS nos grupos de seguridade anteriores, a configuración de HTTPS queda fora do alcance desta práctica, na que só vamos usar as regras HTTP.</p>
+<p>Aínda que se engadiran regras para o tráfico HTTPS nos grupos de seguranza anteriores, a configuración de HTTPS queda fora do alcance desta práctica, na que só vamos usar as regras HTTP.</p>
 </div>
-<h2 id="grupo-de-seguridade-da-capa-de-datos">Grupo de seguridade da capa de datos</h2>
-<p>Para as instancias da capa de datos, crea outro grupo de seguridade coa configuración seguinte:</p>
+<h2 id="grupo-de-seguranza-da-capa-de-datos">Grupo de seguranza da capa de datos</h2>
+<p>Para as instancias da capa de datos, crea outro grupo de seguranza coa configuración seguinte:</p>
 <ul>
 <li>Nome: dalle un nome ao grupo. Lembra poñer as tuas iniciais seguidas do curso académico, p.ex. <strong>xcpm2223-bd-sg</strong>.</li>
 <li>Descrición: pon unha descrición para o grupo.</li>
 <li>VPC: escolle a VPC que creaches para a arquitectura.</li>
-<li>Regras de entrada: crea unha regra que permita o tráfico de tipo MYSQL/Aurora (porta 3306) <strong>desde o grupo de seguridade da capa de aplicación</strong>.</li>
+<li>Regras de entrada: crea unha regra que permita o tráfico de tipo MYSQL/Aurora (porta 3306) <strong>desde o grupo de seguranza da capa de aplicación</strong>.</li>
 </ul>
-<p><img alt="Grupo de seguridade da capa de datos" src="../img/sg-bd01.png" />
-<em>Imaxe: grupo de seguridade da capa de datos.</em></p>
+<p><img alt="Grupo de seguranza da capa de datos" src="../img/sg-bd01.png" />
+<em>Imaxe: grupo de seguranza da capa de datos.</em></p>
               
             </div>
           </div><footer>
@@ -191,14 +190,15 @@
     
   </span>
 </div>
-    <script>var base_url = '..';</script>
-    <script src="../js/theme_extra.js" defer></script>
-    <script src="../js/theme.js" defer></script>
-      <script src="../search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>

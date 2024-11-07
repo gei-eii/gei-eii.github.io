@@ -8,7 +8,7 @@
     <title>Paso 7: Proba da dispoñibilidade - EII P3 AWS</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
@@ -17,12 +17,11 @@
         var mkdocs_page_url = "/ha/";
       </script>
     
-    <script src="../js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -34,7 +33,7 @@
           <a href=".." class="icon icon-home"> EII P3 AWS
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,7 +48,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../seguridade/">Paso 2: Configuración da seguridade</a>
+                <li class="toctree-l1"><a class="reference internal" href="../seguranza/">Paso 2: Configuración da seguranza</a>
                 </li>
               </ul>
               <ul>
@@ -69,7 +68,7 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 7: Proba da dispoñibilidade</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Paso 7: Proba da dispoñibilidade</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#avaria-na-instancia-da-aplicacion">Avaría na instancia da aplicación</a>
     </li>
@@ -97,8 +96,8 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Paso 7: Proba da dispoñibilidade</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Paso 7: Proba da dispoñibilidade</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -111,7 +110,7 @@
 <p>Vamos agora comprobar como se comporta a nosa arquitectura desde o ponto de vista da dispoñibilidade usando unha aproximación baseada na inxección controlada de fallas. A <strong>inxección de fallas (<em>Failure Injection</em>)</strong> é unha compoñente chave da <strong>Enxeñaría do Caos (<em>Chaos Engineering</em>)</strong>, que utiliza esta técnica para provocar situacións caóticas, daí o nome, que permitan testar hipóteses sobre a resiliencia das cargas de traballo. Consiste en simular eventos que poderían afectar a servizos en producción e analizar o comportamento das arquitecturas dos servizos, tratando de identificar que compoñentes non proporcionan unha resposta adecuada ante a ocorrencia de avarías.</p>
 <p>Hai diferentes alternativas entre as que escoller á hora de preparar probas de inxección de fallas en AWS. Por exemplo: </p>
 <ul>
-<li>Usar o servizo <a href="https://aws.amazon.com/fis/"><em>Fault Injection Simulator</em> (FIS)</a>.</li>
+<li>Usar o servizo <a href="https://aws.amazon.com/fis/"><em>Fault Injection Service</em> (FIS)</a>.</li>
 <li>Simular as fallas usando os comandos da CLI de AWS, as opcións dispoñíbeis nas consolas dos servizos, ou o soporte nativo incluído nalgúns servizos (p.ex. Aurora).</li>
 <li>Usar <em>scripts</em>, programas e/ou ferramentas (p.ex. <a href="https://chaostoolkit.org">Chaos Toolkit</a> ou <a href="https://www.gremlin.com/">Gremlin</a>) que simulen as fallas mediante chamadas a API dos servizos.</li>
 </ul>
@@ -139,7 +138,7 @@ aws ec2 terminate-instances --instance-ids $instance_id
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>Mentres se produce o cambio de instancia, recarga varias veces a páxina da aplicación para comprobar como se perde a conexión e, unha vez a nova instancia estea iniciada, volve recuperarse.</p>
+<p>Mentres se produce o cambio de instancia, recarga varias veces a páxina da aplicación para comprobar como se perde a conexión e, unha vez a nova instancia estexa iniciada, volve recuperarse.</p>
 </div>
 <p><img alt="Inxección de fallas na instancia: grupo de autoescalamento" src="../img/test-ha02.png" />
 <em>Imaxe: histórico do grupo de escalamento no que se amosa como se detectou que a instancia foi terminada e se iniciou unha nova para substituíla e manter a capacidade mínima configurada no grupo.</em></p>
@@ -243,7 +242,7 @@ aws rds failover-db-cluster --db-cluster-identifier $cluster_id
 <em>Imaxe: a replica de só lectura pasou a ser a instancia primaria do cluster despois do failover.</em></p>
 <ol start="5">
 <li>Repite os puntos 3 e 4 para provocar outro <em>failover</em> e comproba que se recupera o estado inicial do cluster.</li>
-<li>Na consola de RDS, comproba na lapela <strong>Logs e eventos</strong> das propiedades do cluster que aparecen os eventos dos dous <em>failovers</em> que se fixeron.</li>
+<li>Na consola de RDS, comproba na aba <strong>Logs e eventos</strong> das propiedades do cluster que aparecen os eventos dos dous <em>failovers</em> que se fixeron.</li>
 </ol>
 <p><img alt="Inxección de fallas na instancia primaria da BD: eventos" src="../img/test-ha11.png" />
 <em>Imaxe: eventos dos dous failovers.</em></p>
@@ -286,14 +285,15 @@ aws rds failover-db-cluster --db-cluster-identifier $cluster_id
     
   </span>
 </div>
-    <script>var base_url = '..';</script>
-    <script src="../js/theme_extra.js" defer></script>
-    <script src="../js/theme.js" defer></script>
-      <script src="../search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>

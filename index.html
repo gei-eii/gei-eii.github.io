@@ -8,7 +8,7 @@
     <title>EII P3 AWS</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
@@ -17,12 +17,11 @@
         var mkdocs_page_url = "/";
       </script>
     
-    <script src="js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -34,14 +33,14 @@
           <a href="." class="icon icon-home"> EII P3 AWS
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href=".">Despregadura en AWS dunha arquitectura HA elástica de 2 capas</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Despregadura en AWS dunha arquitectura HA elástica de 2 capas</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#licenza">Licenza</a>
     </li>
@@ -53,7 +52,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="seguridade/">Paso 2: Configuración da seguridade</a>
+                <li class="toctree-l1"><a class="reference internal" href="seguranza/">Paso 2: Configuración da seguranza</a>
                 </li>
               </ul>
               <ul>
@@ -93,8 +92,8 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Despregadura en AWS dunha arquitectura HA elástica de 2 capas</li>
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Despregadura en AWS dunha arquitectura HA elástica de 2 capas</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -104,7 +103,7 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="despregadura-en-aws-dunha-arquitectura-ha-elastica-de-2-capas">Despregadura en AWS dunha arquitectura HA elástica de 2 capas</h1>
-<p>Usando os servizos de AWS, nesta práctica vamos despregar unha arquitectura de dúas capas que proporcione alta dispoñibilidade, escalabilidade e seguridade para un servizo de xestión de tarefas pendentes. A escalabilidade e resiliencia da arquitectura comprobarase realizando probas de carga e de inxección de fallas.</p>
+<p>Usando os servizos de AWS, nesta práctica vamos despregar unha arquitectura de dúas capas que proporcione alta dispoñibilidade, escalabilidade e seguranza para un servizo de xestión de tarefas pendentes. A escalabilidade e resiliencia da arquitectura comprobarase realizando probas de carga e de inxección de fallas.</p>
 <p><img alt="Arquitectura" src="img/twotier-architecture.png" />
 <em>Imaxe: arquitectura de dúas capas que se vai despregar nesta práctica indicando os servizos AWS que se van empregar.</em></p>
 <p>Unha arquitectura de dúas capas é un modelo cliente-servidor de arquitectura software que divide a aplicación en dúas capas lóxicas: </p>
@@ -112,13 +111,13 @@
 <li>a capa que contén a lóxica da aplicación e que xera o contido visualizado polos clientes, </li>
 <li>a capa de almacenamento de datos. </li>
 </ul>
-<p>A división dunha aplicación en capas aporta modularidade á aplicación, permitindo xestionar cada capa de maneira independente e configurar a escalabilidade, a HA e a seguridade do xeito máis adecuado a cada capa.</p>
+<p>A división dunha aplicación en capas aporta modularidade á aplicación, permitindo xestionar cada capa de maneira independente e configurar a escalabilidade, a HA e a seguranza do xeito máis adecuado a cada capa.</p>
 <p>A aplicación que vamos utilizar como exemplo é unha aplicación para un contorno LAMP, cun <em>frontend</em> escrito en PHP e un <em>backend</em> compatíbel con MySQL, para a <a href="https://github.com/gei-eii/todo-php">xestión de tarefas pendentes</a>.</p>
 <p><img alt="Aplicación" src="img/aplicacion.png" />
 <em>Imaxe: aplicación para a xestión de tarefas pendentes que usaremos como exemplo.</em> </p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>A práctica está enfocada principalmente aos aspectos relacionados coa alta dispoñibilidade e a elasticidade da arquitectura. Algúns elementos que son habituais nestas arquitecturas que teñen a ver co rendemento (p.ex. uso dunha caché na capa de datos) ou a seguridade (p.ex. configuración do HTTPS) deixaronse fora por non facela demasiado longa. Tampouco se trata a automatización da despregadura con ferramentas IaC (<em>Infrastructure as Code</em>) como <a href="https://aws.amazon.com/cloudformation/">CloudFormation</a> ou <a href="https://www.terraform.io">Terraform</a>.</p>
+<p>A práctica está enfocada principalmente aos aspectos relacionados coa alta dispoñibilidade e a elasticidade da arquitectura. Algúns elementos que son habituais nestas arquitecturas que teñen a ver co rendemento (p.ex. uso dunha caché na capa de datos) ou a seguranza (p.ex. configuración do HTTPS) deixaronse fora por non facela demasiado longa. Tampouco se trata a automatización da despregadura con ferramentas IaC (<em>Infrastructure as Code</em>) como <a href="https://aws.amazon.com/cloudformation/">CloudFormation</a> ou <a href="https://www.terraform.io">Terraform</a>.</p>
 </div>
 <h2 id="licenza">Licenza</h2>
 <p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licenza Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Despregadura en AWS dunha arquitectura HA elástica de 2 capas</span> de <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/gei-eii/gei-eii.github.io" property="cc:attributionName" rel="cc:attributionURL">Xoán C. Pardo</a> ten unha licenza <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Recoñecemento-Non comercial 4.0 Internacional</a>.</p>
@@ -154,20 +153,21 @@
     
   </span>
 </div>
-    <script>var base_url = '.';</script>
-    <script src="js/theme_extra.js" defer></script>
-    <script src="js/theme.js" defer></script>
-      <script src="search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>
 </html>
 
 <!--
-MkDocs version : 1.4.2
-Build Date UTC : 2023-11-27 09:54:20.041999+00:00
+MkDocs version : 1.6.0
+Build Date UTC : 2024-11-07 22:03:50.903134+00:00
 -->

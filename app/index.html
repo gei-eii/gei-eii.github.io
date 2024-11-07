@@ -8,7 +8,7 @@
     <title>Paso 5: Configuración da capa de aplicación - EII P3 AWS</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
@@ -17,12 +17,11 @@
         var mkdocs_page_url = "/app/";
       </script>
     
-    <script src="../js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -34,7 +33,7 @@
           <a href=".." class="icon icon-home"> EII P3 AWS
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,7 +48,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../seguridade/">Paso 2: Configuración da seguridade</a>
+                <li class="toctree-l1"><a class="reference internal" href="../seguranza/">Paso 2: Configuración da seguranza</a>
                 </li>
               </ul>
               <ul>
@@ -61,7 +60,7 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 5: Configuración da capa de aplicación</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Paso 5: Configuración da capa de aplicación</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#crea-o-grupo-de-destino">Crea o grupo de destino</a>
     </li>
@@ -101,8 +100,8 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Paso 5: Configuración da capa de aplicación</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Paso 5: Configuración da capa de aplicación</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -161,16 +160,18 @@
 <p><img alt="Balanceador de carga de aplicacións: VPC" src="../img/app-alb02.png" />
 <em>Imaxe: configuración de rede do balanceador.</em></p>
 <ul>
-<li>Grupo de seguridade: escolle o grupo de seguridade do balanceador de carga que creaches no paso de configuración da seguridade. </li>
+<li>Grupo de seguranza: escolle o grupo de seguranza do balanceador de carga que creaches no paso de configuración da seguranza. </li>
 <li>Roteamento: escolle no <em>listener</em> HTTP:80 o grupo de destino que creaches anteriormente.</li>
 </ul>
-<p><img alt="Balanceador de carga de aplicacións: seguridade e rotemento" src="../img/app-alb03.png" />
-<em>Imaxe: configuración de seguridade e listeners do balanceador.</em></p>
+<p><img alt="Balanceador de carga de aplicacións: seguranza e rotemento" src="../img/app-alb03.png" />
+<em>Imaxe: configuración de seguranza e listeners do balanceador.</em></p>
 </li>
 <li>
 <p>Acepta para crear o balanceador.</p>
 <p><img alt="Balanceador de carga de aplicacións" src="../img/app-alb04.png" />
 <em>Imaxe: propiedades do balanceador.</em></p>
+<p><img alt="Balanceador de carga de aplicacións: mapa de recursos" src="../img/app-alb04b.png" />
+<em>Imaxe: mapa de recursos nas propiedades do balanceador.</em></p>
 </li>
 </ol>
 <h2 id="crea-o-modelo-de-execucion">Crea o modelo de execución</h2>
@@ -187,7 +188,7 @@
 <li>Tipo de instancia: <strong>t2.micro</strong></li>
 <li>Par de chaves: escolle <strong>NON</strong> engadilas ao modelo.</li>
 <li>Subrede: escolle <strong>NON</strong> engadila no modelo.</li>
-<li>Grupo de seguridade: escolle o grupo de seguridade da capa de aplicación.</li>
+<li>Grupo de seguranza: escolle o grupo de seguranza da capa de aplicación.</li>
 <li>Detalles avanzados: escolle o perfil de instancia IAM <strong>LabInstanceProfile</strong>, que xa está predefinido no laboratorio de AWS Academy.</li>
 </ul>
 <p><img alt="Modelo de lanzamento: configuración" src="../img/app-launchcfg01.png" />
@@ -236,10 +237,16 @@
 <p><img alt="Grupo de autoescalamento: propiedades" src="../img/app-scaling05.png" />
 <em>Imaxe: propiedades do grupo de escalamento.</em>    </p>
 <ol start="4">
-<li>Comproba que a instancia apareza tamén como destino rexistrado no grupo de destino do balanceador de carga.</li>
+<li>Comproba que a instancia apareza tamén como destino rexistrado no grupo de destino do balanceador de carga e no mapa de recursos.</li>
 </ol>
 <p><img alt="Grupo de destino: destino rexistrado" src="../img/app-scaling06.png" />
 <em>Imaxe: instancia rexistrada no grupo de destino.</em> </p>
+<p><img alt="Balanceador de carga: mapa de recursos" src="../img/app-scaling06b.png" />
+<em>Imaxe: mapa de recursos do balanceador coa instancia rexistrada no grupo de destino.</em> </p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Nas tres capturas anteriores o ID da instancia non coincide porque foron tomadas con instancias diferentes. No teu caso debería ser o mesmo ID xa que é a mesma instancia.</p>
+</div>
 <h2 id="comproba-a-aplicacion">Comproba a aplicación</h2>
 <p>Para realizar a comprobación inicial de que a arquitectura está correctamente configurada, fai o seguinte:</p>
 <ol>
@@ -291,14 +298,15 @@
     
   </span>
 </div>
-    <script>var base_url = '..';</script>
-    <script src="../js/theme_extra.js" defer></script>
-    <script src="../js/theme.js" defer></script>
-      <script src="../search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>

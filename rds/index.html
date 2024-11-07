@@ -8,7 +8,7 @@
     <title>Paso 3: Configuración da capa de datos - EII P3 AWS</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
@@ -17,12 +17,11 @@
         var mkdocs_page_url = "/rds/";
       </script>
     
-    <script src="../js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -34,7 +33,7 @@
           <a href=".." class="icon icon-home"> EII P3 AWS
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,11 +48,11 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../seguridade/">Paso 2: Configuración da seguridade</a>
+                <li class="toctree-l1"><a class="reference internal" href="../seguranza/">Paso 2: Configuración da seguranza</a>
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 3: Configuración da capa de datos</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Paso 3: Configuración da capa de datos</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#crea-o-grupo-de-subredes">Crea o grupo de subredes</a>
     </li>
@@ -95,8 +94,8 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Paso 3: Configuración da capa de datos</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Paso 3: Configuración da capa de datos</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -147,12 +146,17 @@
 <li>Modelo: <strong>Dev/Test</strong></li>
 <li>Configuracións: <ul>
 <li>Dalle un nome ao cluster. Lembra poñer as tuas iniciais seguidas do curso académico, p.ex. <strong>xcpm2223-db-cluster</strong>.</li>
-<li>Contrasinal principal: insire unha seña para o usuario <strong>admin</strong> da BD.</li>
+<li>Contrasinal principal: escolle <strong>Autoxestionada</strong> e insire unha seña para o usuario <strong>admin</strong> da BD.</li>
 </ul>
 </li>
 </ul>
 <p><img alt="Configuración da BD: modelo e configuracións" src="../img/bd-config02.png" />
 <em>Imaxe: configuración do modelo e configuracións do cluster de BD.</em></p>
+<ul>
+<li>Configuración do almacenamento en cluster: deixa a opción <strong>Aurora Estándar</strong>.</li>
+</ul>
+<p><img alt="Configuración da BD: almacenamento en cluster" src="../img/bd-config02b.png" />
+<em>Imaxe: configuración do almacenamento en cluster do cluster de BD.</em></p>
 <ul>
 <li>Configuración da instancia: escolle unha instancia de tipo <strong>db.t3.medium</strong> (para que apareza na listaxe tes que activar a opción para ver as instancias da clase t).</li>
 <li>Dispoñibilidade: activa a opción para crear unha réplica de lectura nunha AZ diferente.</li>
@@ -160,7 +164,7 @@
 <p><img alt="Configuración da BD: instancia e dispoñibilidade" src="../img/bd-config03.png" />
 <em>Imaxe: configuración da instancia e dispoñibilidade do cluster de BD.</em></p>
 <ul>
-<li>Conectividade: escolle a VPC que creaches para a arquitectura, o grupo de subredes que se creou anteriormente e o grupo de seguridade da capa de datos. Asegúrate de que o acceso público ao cluster estea desactivado.</li>
+<li>Conectividade: escolle a VPC que creaches para a arquitectura, o grupo de subredes que se creou anteriormente e o grupo de seguranza da capa de datos. Asegúrate de que o acceso público ao cluster estexa desactivado.</li>
 </ul>
 <p><img alt="Configuración da BD: conectividade" src="../img/bd-config04.png" />
 <em>Imaxe: configuración da conectividade do cluster de BD.</em></p>
@@ -183,13 +187,13 @@
 <em>Imaxe: propiedades do cluster de BD Aurora.</em></p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>Para que o cluster non xere custos innecesarios cando non o esteas usando, podes paralo usando a opción <strong>Interromper temporalmente</strong> do menú de accións. Isto fai que se paren as instancias do cluster durante un período máximo de 7 días. Se non se inician antes manualmente, pasado ese período o laboratorio iniciaraas automaticamente.</p>
+<p>Para que o cluster non xere custos innecesarios cando non o estexas usando, podes paralo usando a opción <strong>Interromper temporalmente</strong> do menú de accións. Isto fai que se paren as instancias do cluster durante un período máximo de 7 días. Se non se inician antes manualmente, pasado ese período o laboratorio iniciaraas automaticamente.</p>
 </div>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../seguridade/" class="btn btn-neutral float-left" title="Paso 2: Configuración da seguridade"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../seguranza/" class="btn btn-neutral float-left" title="Paso 2: Configuración da seguranza"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../ami/" class="btn btn-neutral float-right" title="Paso 4: Configuración da aplicación">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -213,21 +217,22 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../seguridade/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../seguranza/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../ami/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
-    <script>var base_url = '..';</script>
-    <script src="../js/theme_extra.js" defer></script>
-    <script src="../js/theme.js" defer></script>
-      <script src="../search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>

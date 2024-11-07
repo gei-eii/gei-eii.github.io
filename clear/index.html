@@ -8,7 +8,7 @@
     <title>Paso 8: Eliminación de recursos - EII P3 AWS</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
@@ -17,12 +17,11 @@
         var mkdocs_page_url = "/clear/";
       </script>
     
-    <script src="../js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -34,7 +33,7 @@
           <a href=".." class="icon icon-home"> EII P3 AWS
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,7 +48,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../seguridade/">Paso 2: Configuración da seguridade</a>
+                <li class="toctree-l1"><a class="reference internal" href="../seguranza/">Paso 2: Configuración da seguranza</a>
                 </li>
               </ul>
               <ul>
@@ -73,13 +72,13 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 8: Eliminación de recursos</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Paso 8: Eliminación de recursos</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#recursos-da-capa-de-aplicacion">Recursos da capa de aplicación</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#grupo-de-escalamento">Grupo de escalamento</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#modelo-de-lanzamento">Modelo de lanzamento</a>
+    <li class="toctree-l3"><a class="reference internal" href="#modelo-de-execucion">Modelo de execución</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#ami">AMI</a>
     </li>
@@ -121,8 +120,8 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Paso 8: Eliminación de recursos</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Paso 8: Eliminación de recursos</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -136,10 +135,10 @@
 <h2 id="recursos-da-capa-de-aplicacion">Recursos da capa de aplicación</h2>
 <h5 id="grupo-de-escalamento">Grupo de escalamento</h5>
 <ol>
-<li>No servizo EC2, termina as instancias da aplicación que estean en execución poñendo a <strong>capacidade mínima</strong>, <strong>capacidade desexada</strong> e <strong>capacidade máxima</strong> a 0 nas propiedades do grupo de autoescalamento.</li>
+<li>No servizo EC2, termina as instancias da aplicación que estexan en execución poñendo a <strong>capacidade mínima</strong>, <strong>capacidade desexada</strong> e <strong>capacidade máxima</strong> a 0 nas propiedades do grupo de autoescalamento.</li>
 <li>Unha vez que se terminen as instancias e xa non aparezan no grupo de destino do balanceador, elimina o grupo de autoescalamento.</li>
 </ol>
-<h5 id="modelo-de-lanzamento">Modelo de lanzamento</h5>
+<h5 id="modelo-de-execucion">Modelo de execución</h5>
 <ol start="3">
 <li>No servizo EC2, elimina o modelo de execución que se usou para lanzar as instancias da aplicación. </li>
 </ol>
@@ -182,7 +181,7 @@
 </ol>
 <h5 id="vpc">VPC</h5>
 <ol start="15">
-<li>No servizo VPC, elimina a VPC. Isto tamén eliminará as subredes, táboas de roteamento, grupos de seguridade e o <em>gateway</em> de Internet.</li>
+<li>No servizo VPC, elimina a VPC. Isto tamén eliminará as subredes, táboas de rutas, grupos de seguranza e o <em>gateway</em> de Internet.</li>
 </ol>
               
             </div>
@@ -216,14 +215,15 @@
     
   </span>
 </div>
-    <script>var base_url = '..';</script>
-    <script src="../js/theme_extra.js" defer></script>
-    <script src="../js/theme.js" defer></script>
-      <script src="../search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>

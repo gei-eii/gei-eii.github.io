@@ -8,7 +8,7 @@
     <title>Paso 6: Configuración da elasticidade na capa de aplicación - EII P3 AWS</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
@@ -17,12 +17,11 @@
         var mkdocs_page_url = "/autoscaling/";
       </script>
     
-    <script src="../js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -34,7 +33,7 @@
           <a href=".." class="icon icon-home"> EII P3 AWS
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,7 +48,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../seguridade/">Paso 2: Configuración da seguridade</a>
+                <li class="toctree-l1"><a class="reference internal" href="../seguranza/">Paso 2: Configuración da seguranza</a>
                 </li>
               </ul>
               <ul>
@@ -65,7 +64,7 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Paso 6: Configuración da elasticidade na capa de aplicación</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Paso 6: Configuración da elasticidade na capa de aplicación</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#crea-unha-alarma-para-o-numero-alto-de-conexions">Crea unha alarma para o número alto de conexións</a>
     </li>
@@ -101,8 +100,8 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Paso 6: Configuración da elasticidade na capa de aplicación</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Paso 6: Configuración da elasticidade na capa de aplicación</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -127,7 +126,7 @@
 <li>Métrica: escolle a métrica <strong>RequestCountPerTarget</strong> na categoría <strong>ApplicationELB-&gt;TargetGroup</strong></li>
 <li>Estatística: <strong>Suma</strong></li>
 <li>Periodo: <strong>1 minuto</strong></li>
-<li>Condición: <strong>&gt;100</strong>. Na configuración adicional, escolle a opción <strong>Considerar datos ausentes como ignorar</strong>.  </li>
+<li>Condición: <strong>&gt;100</strong>. Na configuración adicional, escolle a opción <strong>Lidar con datos ausentes como ignorar</strong>.  </li>
 </ul>
 <p><img alt="Alarma: métrica e condicións" src="../img/test-scaling01.png" />
 <em>Imaxe: configuración da métrica e condicións da alarma.</em></p>
@@ -164,7 +163,7 @@
 <ol>
 <li>Vai para a consola de EC2 e escolle o grupo de autoescalamento da capa de aplicación.</li>
 <li>
-<p>Na lapela <strong>Escalabilidade automática</strong> das propiedades do grupo, escolle a opción <strong>Crear unha política de escalabilidade dinámica</strong> e indica as seguintes opcións:</p>
+<p>Na aba <strong>Escalabilidade automática</strong> das propiedades do grupo, escolle a opción <strong>Crear unha política de escalabilidade dinámica</strong> e indica as seguintes opcións:</p>
 <ul>
 <li>Tipo de política: <strong>Escalabilidade simple</strong></li>
 <li>Nome: dalle un nome precedido do teu prefixo e curso, p.ex. <strong>xcpm2223-scaleout</strong></li>
@@ -195,6 +194,12 @@
 <em>Imaxe: estado da alarma que detecta un número elevado de conexións e histórico que amosa que se aplicou a política de escalabilidade para aumentar o número de instancias.</em></p>
 <p><img alt="Escalamento: grupo de destino con dúas instancias" src="../img/test-scaling05.png" />
 <em>Imaxe: estado do grupo de destino do balanceador con dúas instancias en AZ diferentes despois de aplicar a política de escalabilidade.</em></p>
+<p><img alt="Escalamento: mapa de recursos con dúas instancias" src="../img/test-scaling05b.png" />
+<em>Imaxe: mapa de recursos do balanceador con dúas instancias rexistradas despois de aplicar a política de escalabilidade.</em></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Nas duas capturas anteriores o ID das instancias non coincide porque foron tomadas con instancias diferentes. No teu caso deberían ser os mesmos ID xa que son as mesmas instancias.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>Se recargas varias veces a páxina da aplicación coa listaxe de tarefas pendentes mentres haxa dúas instancias en execución, verás que cambia a información do DNS privado que sirve a páxina dependendo de a que instancia redirixa a solicitude o balanceador. </p>
@@ -208,6 +213,12 @@
 <em>Imaxe: estado do grupo de destino do balanceador coa instancia que se está a eliminar como consecuencia de aplicar a política de escalabilidade.</em></p>
 <p><img alt="Escalamento: histórico do grupo" src="../img/test-scaling09.png" />
 <em>Imaxe: historico do grupo de escalamento no que se amosa a aplicación das políticas de escalabilidade. Tamén aparece a substitución dunha instancia debido a un fallo na comprobación de estado realizada desde o balanceador.</em></p>
+<p><img alt="Escalamento: mapa de recursos cunha soa instancia" src="../img/test-scaling09b.png" />
+<em>Imaxe: mapa de recursos do balanceador coa instancia que se está a eliminar como consecuencia de aplicar a política de escalabilidade.</em></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Na última captura o ID das instancias non coincide coas das dúas anteriores porque foron tomadas con instancias diferentes. No teu caso deberían ser os mesmos ID xa que son as mesmas instancias.</p>
+</div>
               
             </div>
           </div><footer>
@@ -243,14 +254,15 @@
     
   </span>
 </div>
-    <script>var base_url = '..';</script>
-    <script src="../js/theme_extra.js" defer></script>
-    <script src="../js/theme.js" defer></script>
-      <script src="../search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>
